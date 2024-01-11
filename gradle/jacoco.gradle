@@ -1,0 +1,20 @@
+/*
+    SHARED GRADLE FILE! DO NOT EDIT!
+    If you need changes, copy file to a project gradle directory and change import
+    settings.
+ */
+apply plugin: 'jacoco'
+
+jacocoTestReport {
+    reports {
+        html {
+            enabled true
+            destination file("build/reports/jacoco/html")
+        }
+        xml {
+            enabled true
+            destination file("build/reports/jacoco/jacoco.xml")
+        }
+    }
+}
+test.finalizedBy(project.tasks.jacocoTestReport)
