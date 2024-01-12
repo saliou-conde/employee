@@ -1,7 +1,7 @@
 package akros.employee.employeemanager.domain.mapper;
 
 import akros.employee.employeemanager.domain.Employee;
-import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
+import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import org.junit.jupiter.api.Test;
 
 import java.util.UUID;
@@ -13,7 +13,7 @@ class EmployeeMapperTest {
     @Test
     void mapToEmployee() {
         //Given
-        EmployeeRequestDto requestDto = new EmployeeRequestDto();
+        HttpRequestDto requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -41,9 +41,9 @@ class EmployeeMapperTest {
         employee.setJobCode(UUID.randomUUID().toString());
 
         //When
-        EmployeeRequestDto employeeRequestDto = EmployeeMapper.INSTANCE.mapToEmployeeRequestDto(employee);
+        HttpRequestDto httpRequestDto = EmployeeMapper.INSTANCE.mapToEmployeeRequestDto(employee);
 
         //Then
-        assertThat(employeeRequestDto).isNotNull();
+        assertThat(httpRequestDto).isNotNull();
     }
 }

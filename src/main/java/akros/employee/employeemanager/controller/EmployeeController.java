@@ -1,6 +1,6 @@
 package akros.employee.employeemanager.controller;
 
-import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
+import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.service.EmployeeService;
 import akros.employee.employeemanager.service.impl.TokenService;
@@ -20,11 +20,11 @@ import static org.springframework.http.HttpStatus.OK;
 @Slf4j
 public class EmployeeController {
 
-    private final EmployeeService<EmployeeRequestDto, HttpResponseDto> service;
+    private final EmployeeService<HttpRequestDto, HttpResponseDto> service;
     private final TokenService tokenService;
 
     @GetMapping
-    public ResponseEntity<List<EmployeeRequestDto>> getAllEmployees() {
+    public ResponseEntity<List<HttpRequestDto>> getAllEmployees() {
         return ResponseEntity.ok(service.findAllEmployees());
     }
 
@@ -35,7 +35,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody EmployeeRequestDto dto) {
+    public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody HttpRequestDto dto) {
         HttpResponseDto responseDto = service.saveEmployee(dto);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }

@@ -1,41 +1,71 @@
 package akros.employee.employeemanager.service.impl;
 
 import akros.employee.employeemanager.domain.Employee;
-import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
+import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.domain.mapper.EmployeeMapper;
+import akros.employee.employeemanager.domain.plaisibility.EmployeeValidation;
+import akros.employee.employeemanager.domain.plaisibility.EmployeeValidator;
 import akros.employee.employeemanager.repository.EmployeeRepository;
 import akros.employee.employeemanager.service.EmployeeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
 import static akros.employee.employeemanager.constant.AppConstant.API_PATH;
+import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidation.EMPLOYEE_EMAIL_ALREADY_IN_USE;
+import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidation.VALID;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, HttpResponseDto> {
+@Slf4j
+public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, HttpResponseDto> {
+    public static final String EMPLOYEE = "employee";
     private final EmployeeRepository repository;
     private static final EmployeeMapper mapper = EmployeeMapper.INSTANCE;
     public EmployeeServiceImpl(EmployeeRepository repository) {
         this.repository = repository;
     }
 
-    public HttpResponseDto saveEmployee(EmployeeRequestDto dto) {
+    public HttpResponseDto saveEmployee(HttpRequestDto dto) {
 
-        if(findEmployee(dto.getEmail()) != null) {
+        Employee findEmployee = findEmployee(dto.getEmail());
+        EmployeeValidation validation = EmployeeValidator.isEmployeeValid().apply(findEmployee);
+        log.info("ValidationResult: {}", validation);
+
+        if( validation == VALID) {
+
             return HttpResponseDto.builder()
+                    .timestamp(Instant.now().toString())
                     .status(NOT_ACCEPTABLE)
-                    .error("Not Acceptable")
-                    .data(Map.of("employee", new EmployeeRequestDto()))
-                    .message("Mail Already Exists")
                     .statusCode(NOT_ACCEPTABLE.value())
-                    .statusCode(NOT_ACCEPTABLE.value())
+                    .error(NOT_ACCEPTABLE.toString())
+                    .data(Map.of(EMPLOYEE, new HttpRequestDto()))
+                    .message(EMPLOYEE_EMAIL_ALREADY_IN_USE.getDescription())
                     .path(API_PATH)
                     .build();
+        }
+
+        Employee employee = mapper.mapToEmployee(dto);
+        validation = EmployeeValidator
+                .isEmployeeEmailValid()
+                .and(EmployeeValidator.isEmployeePasswordValid(employee.getPassword())).apply(employee);
+        if(validation != VALID) {
+            return HttpResponseDto.builder()
+                    .timestamp(Instant.now().toString())
+                    .status(BAD_REQUEST)
+                    .statusCode(BAD_REQUEST.value())
+                    .error(BAD_REQUEST.toString())
+                    .message(validation.getDescription())
+                    .data(Map.of(BAD_REQUEST, dto))
+                    .path(API_PATH)
+                    .build();
+
         }
 
         dto.setEmployeeId(UUID.randomUUID().toString());
@@ -43,11 +73,11 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
         repository.save(employeeToSave);
 
         return HttpResponseDto.builder()
+                .timestamp(Instant.now().toString())
                 .status(CREATED)
+                .statusCode(CREATED.value())
                 .message("Employee Successfully Added")
-                .data(Map.of("employee", dto))
-                .statusCode(CREATED.value())
-                .statusCode(CREATED.value())
+                .data(Map.of(EMPLOYEE, dto))
                 .path(API_PATH)
                 .build();
     }
@@ -56,8 +86,8 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
         String path = API_PATH+email;
         var employeeRequestDto = mapper.mapToEmployeeRequestDto(findEmployee(email));
         if(employeeRequestDto == null) {
-            return HttpResponseDto
-                    .builder()
+            return HttpResponseDto.builder()
+                    .timestamp(Instant.now().toString())
                     .message("Employee not found by email: "+email)
                     .path(path)
                     .status(NOT_FOUND)
@@ -67,17 +97,18 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
 
         }
 
-        return HttpResponseDto
-                .builder()
+        return HttpResponseDto.builder()
+                .timestamp(Instant.now().toString())
                 .message("Employee found by email: "+email)
                 .path(path)
                 .status(OK)
                 .statusCode(OK.value())
+                .data(Map.of(EMPLOYEE, employeeRequestDto))
                 .data(Map.of("Employee Deleted", employeeRequestDto))
                 .build();
     }
 
-    public List<EmployeeRequestDto> findAllEmployees() {
+    public List<HttpRequestDto> findAllEmployees() {
         List<Employee> employees = repository.findAll();
 
         return employees
@@ -92,22 +123,22 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
         Employee employeeOptional = findEmployee(email);
         if(employeeOptional != null) {
             repository.delete(employeeOptional);
-            return HttpResponseDto
-                    .builder()
+            return HttpResponseDto.builder()
+                    .timestamp(Instant.now().toString())
                     .message("Employee with the email: "+email+" has been deleted.")
                     .path(path)
                     .status(OK)
-                    .statusCode(200)
-                    .data(Map.of("Employee Deleted", employeeOptional))
+                    .statusCode(OK.value())
+                    .data(Map.of(EMPLOYEE, employeeOptional))
                     .build();
         }
 
-        return  HttpResponseDto
-                .builder()
-                .error("Not found")
+        return  HttpResponseDto.builder()
+                .timestamp(Instant.now().toString())
+                .error(NOT_FOUND.toString())
                 .message("Employee with the email: "+email+" has been deleted.")
                 .status(NOT_FOUND)
-                .statusCode(404)
+                .statusCode(NOT_FOUND.value())
                 .path(path)
                 .build();
     }

@@ -1,7 +1,7 @@
 package akros.employee.employeemanager.controller;
 
 import akros.employee.employeemanager.config.SecurityConfig;
-import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
+import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.service.EmployeeService;
 import akros.employee.employeemanager.service.impl.TokenService;
@@ -30,8 +30,7 @@ import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.CREATED;
-import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
+import static org.springframework.http.HttpStatus.*;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -41,9 +40,6 @@ class EmployeeControllerTest {
 
     @LocalServerPort
     private Integer port;
-    private final String apiPath = "/api/v1/employees";
-    private HttpHeaders headers;
-    private String token;
 
     @Container
     @ServiceConnection
@@ -52,18 +48,17 @@ class EmployeeControllerTest {
     );
 
     @Autowired
-    private EmployeeService<EmployeeRequestDto, HttpResponseDto> service;
+    private EmployeeService<HttpRequestDto, HttpResponseDto> service;
 
     @Autowired
     private TestRestTemplate restTemplate;
-
-    @Autowired
-    private EmployeeController controller;
+    private final String apiPath = "/api/v1/employees";
+    private String token;
 
     @BeforeEach
     void setUp() {
 
-        headers = new HttpHeaders();
+        HttpHeaders headers = new HttpHeaders();
         // create auth credentials
         String authStr = "saliou:password";
         String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
@@ -71,14 +66,14 @@ class EmployeeControllerTest {
 
         RestAssured.baseURI = "http://localhost:" + port;
         service.deleteAllEmployees();
-        var response = restTemplate.exchange(apiPath+"/token", HttpMethod.POST, new HttpEntity<>( headers), String.class);
+        var response = restTemplate.exchange(apiPath+"/token", HttpMethod.POST, new HttpEntity<>(headers), String.class);
         token = response.getBody();
     }
 
     @Test
     void should_add_employee() {
         //Given
-        var requestDto = new EmployeeRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -89,7 +84,6 @@ class EmployeeControllerTest {
         headers.set("Authorization", "Bearer " + token);;
 
         //When
-        //var response = controller.addEmployee(requestDto);
         var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(CREATED.value());
@@ -98,7 +92,7 @@ class EmployeeControllerTest {
     @Test
     void should_not_add_employee_by_already_existing_mail() {
         //Given
-        var requestDto = new EmployeeRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), "19A12iou#");
+        var requestDto = new HttpRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), "19A12iou#");
         service.saveEmployee(requestDto);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
@@ -113,9 +107,26 @@ class EmployeeControllerTest {
     }
 
     @Test
+    void should_not_add_employee_by_invalid_password() {
+        //Given
+        var requestDto = new HttpRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), null);
+        service.saveEmployee(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        //When
+        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode().value()).isEqualTo(BAD_REQUEST.value());
+        var responseDto = response.getBody();
+        assertThat(responseDto).isNotNull();
+        assertThat(responseDto.getData()).isNotNull();
+    }
+
+    @Test
     void should_get_all_employees() {
         //Given
-        var requestDto = new EmployeeRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -141,14 +152,14 @@ class EmployeeControllerTest {
                 .when()
                 .get(apiPath)
                 .then()
-                .statusCode(200)
+                .statusCode(OK.value())
                 .body(".", hasSize(2));
     }
 
     @Test
     void should_find_employee_by_email() {
         //Given
-        var requestDto = new EmployeeRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -168,14 +179,14 @@ class EmployeeControllerTest {
                 .headers(headers)
                 .get(apiPath+"/saliou-conde@gmx.de")
                 .then()
-                .statusCode(200);
+                .statusCode(OK.value());
 
     }
 
     @Test
     void should_not_find_employee_by_email() {
         //Given
-        var requestDto = new EmployeeRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -195,14 +206,14 @@ class EmployeeControllerTest {
                 .when()
                 .get(apiPath+"/saliou-conde@gmx1.de")
                 .then()
-                .statusCode(404);
+                .statusCode(NOT_FOUND.value());
 
     }
 
     @Test
     void should_delete_employee_by_email() {
         //Given
-        var requestDto = new EmployeeRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -222,14 +233,14 @@ class EmployeeControllerTest {
                 .when()
                 .delete(apiPath+"/saliou-conde@gmx.de")
                 .then()
-                .statusCode(200);
+                .statusCode(OK.value());
         assertThat(validatableResponse).isNotNull();
     }
 
     @Test
     void should_not_delete_employee_by_email() {
         //Given
-        var requestDto = new EmployeeRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(UUID.randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -249,7 +260,7 @@ class EmployeeControllerTest {
                 .when()
                 .delete(apiPath+"/saliou-conde@gmx1.de")
                 .then()
-                .statusCode(404);
+                .statusCode(NOT_FOUND.value());
         assertThat(validatableResponse).isNotNull();
     }
 }
