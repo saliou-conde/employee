@@ -31,8 +31,9 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
         if(findEmployee(dto.getEmail()) != null) {
             return HttpResponseDto.builder()
                     .status(NOT_ACCEPTABLE)
+                    .error("Not Acceptable")
                     .data(Map.of("employee", new EmployeeRequestDto()))
-                    .error("Mail Already Exists")
+                    .message("Mail Already Exists")
                     .statusCode(NOT_ACCEPTABLE.value())
                     .statusCode(NOT_ACCEPTABLE.value())
                     .path(API_PATH)
