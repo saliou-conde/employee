@@ -1,8 +1,10 @@
 package akros.employee.employeemanager.controller;
 
+import akros.employee.employeemanager.config.SecurityConfig;
 import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.service.EmployeeService;
+import akros.employee.employeemanager.service.impl.TokenService;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,33 +14,41 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.Base64;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.OK;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Import({SecurityConfig.class, TokenService.class})
 class EmployeeControllerTest {
 
     @LocalServerPort
     private Integer port;
-    private String apiPath = "/api/v1/employees";
+    private final String apiPath = "/api/v1/employees";
+    private HttpHeaders headers;
+    private String token;
 
     @Container
     @ServiceConnection
     static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            "postgres:15-alpine"
+            "postgres:14-alpine"
     );
 
     @Autowired
@@ -52,8 +62,17 @@ class EmployeeControllerTest {
 
     @BeforeEach
     void setUp() {
+
+        headers = new HttpHeaders();
+        // create auth credentials
+        String authStr = "saliou:password";
+        String base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
+        headers.add(AUTHORIZATION, "Basic " + base64Creds);
+
         RestAssured.baseURI = "http://localhost:" + port;
         service.deleteAllEmployees();
+        var response = restTemplate.exchange(apiPath+"/token", HttpMethod.POST, new HttpEntity<>( headers), String.class);
+        token = response.getBody();
     }
 
     @Test
@@ -66,9 +85,12 @@ class EmployeeControllerTest {
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);;
 
         //When
-        var response = controller.addEmployee(requestDto);
+        //var response = controller.addEmployee(requestDto);
+        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), EmployeeRequestDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(OK.value());
     }
@@ -77,9 +99,11 @@ class EmployeeControllerTest {
     void should_not_add_invalid_employee() {
         //Given
         var requestDto = new EmployeeRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), null);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto), EmployeeRequestDto.class);
+        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), EmployeeRequestDto.class);
         assertThat(response.getStatusCode().value()).isEqualTo(INTERNAL_SERVER_ERROR.value());
         var employee = response.getBody();
         assertThat(employee).isNotNull();
@@ -109,10 +133,13 @@ class EmployeeControllerTest {
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(UUID.randomUUID().toString());
         service.saveEmployee(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //Then
         given()
                 .contentType(JSON)
+                .headers(headers)
                 .when()
                 .get(apiPath)
                 .then()
@@ -130,6 +157,8 @@ class EmployeeControllerTest {
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //When
         service.saveEmployee(requestDto);
@@ -138,6 +167,7 @@ class EmployeeControllerTest {
         given()
                 .contentType(JSON)
                 .when()
+                .headers(headers)
                 .get(apiPath+"/saliou-conde@gmx.de")
                 .then()
                 .statusCode(200);
@@ -154,6 +184,8 @@ class EmployeeControllerTest {
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //When
         service.saveEmployee(requestDto);
@@ -161,6 +193,7 @@ class EmployeeControllerTest {
         //Then
         given()
                 .contentType(JSON)
+                .headers(headers)
                 .when()
                 .get(apiPath+"/saliou-conde@gmx1.de")
                 .then()
@@ -178,6 +211,8 @@ class EmployeeControllerTest {
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //When
         service.saveEmployee(requestDto);
@@ -185,6 +220,7 @@ class EmployeeControllerTest {
         //Then
         var validatableResponse = given()
                 .contentType(JSON)
+                .headers(headers)
                 .when()
                 .delete(apiPath+"/saliou-conde@gmx.de")
                 .then()
@@ -202,6 +238,8 @@ class EmployeeControllerTest {
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(UUID.randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //When
         service.saveEmployee(requestDto);
@@ -209,6 +247,7 @@ class EmployeeControllerTest {
         //Then
         var validatableResponse = given()
                 .contentType(JSON)
+                .headers(headers)
                 .when()
                 .delete(apiPath+"/saliou-conde@gmx1.de")
                 .then()

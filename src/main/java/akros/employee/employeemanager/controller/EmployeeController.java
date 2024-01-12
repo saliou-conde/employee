@@ -3,12 +3,16 @@ package akros.employee.employeemanager.controller;
 import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.service.EmployeeService;
+import akros.employee.employeemanager.service.impl.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -17,6 +21,7 @@ import java.util.List;
 public class EmployeeController {
 
     private final EmployeeService<EmployeeRequestDto, HttpResponseDto> service;
+    private final TokenService tokenService;
 
     @GetMapping
     public ResponseEntity<List<EmployeeRequestDto>> getAllEmployees() {
@@ -38,5 +43,13 @@ public class EmployeeController {
     public ResponseEntity<HttpResponseDto> deleteEmployee(@PathVariable("email") String email) {
         HttpResponseDto responseDto = service.deleteEmployeeByEmail(email);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
+    }
+
+    @PostMapping("/token")
+    public ResponseEntity<String> token(Authentication authentication) {
+        log.debug("Token requested for user: {}", authentication.getName());
+        String token = tokenService.generateToken(authentication);
+        log.debug("Token granted for user: {}", token);
+        return new ResponseEntity<>(token, OK);
     }
 }

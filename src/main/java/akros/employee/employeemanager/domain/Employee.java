@@ -1,6 +1,5 @@
 package akros.employee.employeemanager.domain;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -21,7 +20,7 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String jobCode;
     @Column(nullable = false)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     public Employee(String id, String firstname, String lastname, String email, String jobCode, String password) {
