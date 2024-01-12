@@ -30,8 +30,8 @@ import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
-import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.OK;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NOT_ACCEPTABLE;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -90,28 +90,26 @@ class EmployeeControllerTest {
 
         //When
         //var response = controller.addEmployee(requestDto);
-        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), EmployeeRequestDto.class);
+        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
         assertThat(response).isNotNull();
-        assertThat(response.getStatusCode().value()).isEqualTo(OK.value());
+        assertThat(response.getStatusCode().value()).isEqualTo(CREATED.value());
     }
 
     @Test
-    void should_not_add_invalid_employee() {
+    void should_not_add_employee_by_already_existing_mail() {
         //Given
-        var requestDto = new EmployeeRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), null);
+        var requestDto = new EmployeeRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), "19A12iou#");
+        service.saveEmployee(requestDto);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), EmployeeRequestDto.class);
-        assertThat(response.getStatusCode().value()).isEqualTo(INTERNAL_SERVER_ERROR.value());
-        var employee = response.getBody();
-        assertThat(employee).isNotNull();
-        assertThat(employee.getEmployeeId()).isNull();
-        assertThat(employee.getEmail()).isNull();
-        assertThat(employee.getFirstname()).isNull();
-        assertThat(employee.getLastname()).isNull();
-        assertThat(employee.getJobCode()).isNull();
+        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        assertThat(response).isNotNull();
+        assertThat(response.getStatusCode().value()).isEqualTo(NOT_ACCEPTABLE.value());
+        var responseDto = response.getBody();
+        assertThat(responseDto).isNotNull();
+        assertThat(responseDto.getData()).isNotNull();
     }
 
     @Test

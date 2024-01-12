@@ -13,8 +13,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.OK;
+import static akros.employee.employeemanager.constant.AppConstant.API_PATH;
+import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, HttpResponseDto> {
@@ -26,16 +26,34 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
         this.repository = repository;
     }
 
-    public EmployeeRequestDto saveEmployee(EmployeeRequestDto dto) {
+    public HttpResponseDto saveEmployee(EmployeeRequestDto dto) {
+
+        if(findEmployee(dto.getEmail()) != null) {
+            return HttpResponseDto.builder()
+                    .status(NOT_ACCEPTABLE)
+                    .data(Map.of("employee", new EmployeeRequestDto()))
+                    .error("Mail Already Exists")
+                    .statusCode(NOT_ACCEPTABLE.value())
+                    .statusCode(NOT_ACCEPTABLE.value())
+                    .path(API_PATH)
+                    .build();
+        }
 
         dto.setEmployeeId(UUID.randomUUID().toString());
         Employee employeeToSave = mapper.mapToEmployee(dto);
-        Employee employee = repository.save(employeeToSave);
+        repository.save(employeeToSave);
 
-        return mapper.mapToEmployeeRequestDto(employee);
+        return HttpResponseDto.builder()
+                .status(CREATED)
+                .message("Employee Successfully Added")
+                .data(Map.of("employee", dto))
+                .statusCode(CREATED.value())
+                .statusCode(CREATED.value())
+                .path(API_PATH)
+                .build();
     }
     public HttpResponseDto findEmployeeByEmail(String email) {
-        String path = "/api/v1/employees/"+email;
+        String path = API_PATH+email;
         var employeeRequestDto = mapper.mapToEmployeeRequestDto(findEmployee(email));
         if(employeeRequestDto == null) {
             return HttpResponseDto
@@ -67,7 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
                 .toList();
     }
     public HttpResponseDto deleteEmployeeByEmail(String email) {
-        String path = "/api/v1/employees/"+email;
+        String path = API_PATH+email;
 
         Employee employeeOptional = findEmployee(email);
         if(employeeOptional != null) {

@@ -4,7 +4,7 @@ import java.util.List;
 
 
 public interface EmployeeService<T, U> {
-    T saveEmployee(T dto);
+    U saveEmployee(T dto);
     U findEmployeeByEmail(String email);
     List<T> findAllEmployees() ;
     U deleteEmployeeByEmail(String email);

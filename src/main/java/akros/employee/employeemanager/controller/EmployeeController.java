@@ -35,8 +35,9 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<EmployeeRequestDto> addEmployee(@RequestBody EmployeeRequestDto dto) {
-        return ResponseEntity.ok(service.saveEmployee(dto));
+    public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody EmployeeRequestDto dto) {
+        HttpResponseDto responseDto = service.saveEmployee(dto);
+        return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }
 
     @DeleteMapping("/{email}")
