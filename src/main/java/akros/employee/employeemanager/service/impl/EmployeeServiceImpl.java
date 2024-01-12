@@ -18,7 +18,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static akros.employee.employeemanager.constant.AppConstant.API_PATH;
-import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidation.EMPLOYEE_EMAIL_ALREADY_IN_USE;
 import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidation.VALID;
 import static org.springframework.http.HttpStatus.*;
 
@@ -35,10 +34,13 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
     public HttpResponseDto saveEmployee(HttpRequestDto dto) {
 
         Employee findEmployee = findEmployee(dto.getEmail());
-        EmployeeValidation validation = EmployeeValidator.isEmployeeValid().apply(findEmployee);
+        EmployeeValidation validation = EmployeeValidator
+                .isEmployeeValid()
+                .apply(findEmployee);
         log.info("ValidationResult: {}", validation);
 
         if( validation == VALID) {
+            validation = EmployeeValidator.employeeEmailAlreadyInUser(dto.getEmail()).apply(findEmployee);
 
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
@@ -46,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
                     .statusCode(NOT_ACCEPTABLE.value())
                     .error(NOT_ACCEPTABLE.toString())
                     .data(Map.of(EMPLOYEE, new HttpRequestDto()))
-                    .message(EMPLOYEE_EMAIL_ALREADY_IN_USE.getDescription())
+                    .message(validation.getDescription())
                     .path(API_PATH)
                     .build();
         }
@@ -54,7 +56,8 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
         Employee employee = mapper.mapToEmployee(dto);
         validation = EmployeeValidator
                 .isEmployeeEmailValid()
-                .and(EmployeeValidator.isEmployeePasswordValid(employee.getPassword())).apply(employee);
+                .and(EmployeeValidator.isEmployeePasswordValid(employee.getPassword()))
+                .apply(employee);
         if(validation != VALID) {
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
@@ -85,7 +88,8 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
     public HttpResponseDto findEmployeeByEmail(String email) {
         String path = API_PATH+email;
         var employeeRequestDto = mapper.mapToEmployeeRequestDto(findEmployee(email));
-        if(employeeRequestDto == null) {
+        EmployeeValidation validation = EmployeeValidator.findEmployeeByEmail(email).apply(findEmployee(email));
+        if(validation != VALID) {
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
                     .message("Employee not found by email: "+email)

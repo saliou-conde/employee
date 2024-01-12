@@ -13,11 +13,7 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
         return employee -> employee != null && employee.getEmail().equals(email) ? VALID : EMPLOYEE_NOT_FOUND_BY_EMAIL;
     }
     static EmployeeValidator isEmployeeValid() {
-        return employee -> employee != null &&
-                employee.getEmail() != null &&
-                employee.getPassword() != null &&
-                employee.getJobCode() != null &&
-                employee.getId() != null ? VALID : EMPLOYEE_NOT_EXISTS;
+        return employee -> employee != null ? VALID : EMPLOYEE_NOT_EXISTS;
     }
 
     static EmployeeValidator isEmployeeEmailValid() {

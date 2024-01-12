@@ -27,6 +27,12 @@ class EmployeeMapperTest {
         //Then
         assertThat(employee).isNotNull();
         assertThat(employee.getPassword()).isEqualTo("19A12iou#");
+        assertThat(employee.getEmail()).isEqualTo(requestDto.getEmail());
+        assertThat(employee.getPassword()).isEqualTo(requestDto.getPassword());
+        assertThat(employee.getId()).isEqualTo(requestDto.getEmployeeId());
+        assertThat(employee.getFirstname()).isEqualTo(requestDto.getFirstname());
+        assertThat(employee.getLastname()).isEqualTo(requestDto.getLastname());
+        assertThat(employee.getJobCode()).isEqualTo(requestDto.getJobCode());
 
     }
 
@@ -45,5 +51,11 @@ class EmployeeMapperTest {
 
         //Then
         assertThat(httpRequestDto).isNotNull();
+        assertThat(employee.getEmail()).isEqualTo(httpRequestDto.getEmail());
+        assertThat(employee.getPassword()).isEqualTo(httpRequestDto.getPassword());
+        assertThat(employee.getId()).isEqualTo(httpRequestDto.getEmployeeId());
+        assertThat(employee.getFirstname()).isEqualTo(httpRequestDto.getFirstname());
+        assertThat(employee.getLastname()).isEqualTo(httpRequestDto.getLastname());
+        assertThat(employee.getJobCode()).isEqualTo(httpRequestDto.getJobCode());
     }
 }
