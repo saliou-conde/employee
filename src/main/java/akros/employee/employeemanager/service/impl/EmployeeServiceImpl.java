@@ -18,10 +18,8 @@ import static org.springframework.http.HttpStatus.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, HttpResponseDto> {
-
     private final EmployeeRepository repository;
     private static final EmployeeMapper mapper = EmployeeMapper.INSTANCE;
-
     public EmployeeServiceImpl(EmployeeRepository repository) {
         this.repository = repository;
     }
@@ -53,6 +51,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
                 .path(API_PATH)
                 .build();
     }
+
     public HttpResponseDto findEmployeeByEmail(String email) {
         String path = API_PATH+email;
         var employeeRequestDto = mapper.mapToEmployeeRequestDto(findEmployee(email));
@@ -67,6 +66,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
                     .build();
 
         }
+
         return HttpResponseDto
                 .builder()
                 .message("Employee found by email: "+email)
@@ -85,6 +85,7 @@ public class EmployeeServiceImpl implements EmployeeService<EmployeeRequestDto, 
                 .map(mapper::mapToEmployeeRequestDto)
                 .toList();
     }
+
     public HttpResponseDto deleteEmployeeByEmail(String email) {
         String path = API_PATH+email;
 
