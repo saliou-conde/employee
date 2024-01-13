@@ -1,6 +1,7 @@
 package akros.employee.employeemanager.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -15,6 +16,7 @@ import static java.time.temporal.ChronoUnit.HOURS;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TokenService {
     private final JwtEncoder jwtEncoder;
 
@@ -33,5 +35,12 @@ public class TokenService {
                 .build();
 
         return this.jwtEncoder.encode(JwtEncoderParameters.from(claimsSet)).getTokenValue();
+    }
+
+    public String getToken(Authentication authentication) {
+        log.debug("Token requested for user: {}", authentication.getName());
+        String token = generateToken(authentication);
+        log.debug("Token granted for user: {}", token);
+        return token;
     }
 }

@@ -1,6 +1,7 @@
 package akros.employee.employeemanager.controller;
 
 import akros.employee.employeemanager.config.SecurityConfig;
+import akros.employee.employeemanager.constant.AppConstant;
 import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.service.EmployeeService;
@@ -25,6 +26,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import java.util.Base64;
 import java.util.UUID;
 
+import static akros.employee.employeemanager.constant.AppConstant.EMPLOYEE;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -52,7 +54,7 @@ class EmployeeControllerTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
-    private final String apiPath = "/api/v1/employees";
+    private final String PATH = "/api/v1/employees";
     private String token;
 
     @BeforeEach
@@ -66,7 +68,7 @@ class EmployeeControllerTest {
 
         RestAssured.baseURI = "http://localhost:" + port;
         service.deleteAllEmployees();
-        var response = restTemplate.exchange(apiPath+"/token", HttpMethod.POST, new HttpEntity<>(headers), String.class);
+        var response = restTemplate.exchange(PATH +"/token", HttpMethod.POST, new HttpEntity<>(headers), String.class);
         token = response.getBody();
     }
 
@@ -84,7 +86,7 @@ class EmployeeControllerTest {
         headers.set("Authorization", "Bearer " + token);;
 
         //When
-        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(CREATED.value());
     }
@@ -98,7 +100,7 @@ class EmployeeControllerTest {
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(NOT_ACCEPTABLE.value());
         var responseDto = response.getBody();
@@ -115,7 +117,7 @@ class EmployeeControllerTest {
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(apiPath, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(BAD_REQUEST.value());
         var responseDto = response.getBody();
@@ -150,7 +152,7 @@ class EmployeeControllerTest {
                 .contentType(JSON)
                 .headers(headers)
                 .when()
-                .get(apiPath)
+                .get(PATH)
                 .then()
                 .statusCode(OK.value())
                 .body(".", hasSize(2));
@@ -168,19 +170,23 @@ class EmployeeControllerTest {
         requestDto.setJobCode(UUID.randomUUID().toString());
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
+        String appConstantPath = AppConstant.API_PATH;
 
         //When
-        service.saveEmployee(requestDto);
+        HttpResponseDto responseDto = service.saveEmployee(requestDto);
 
         //Then
         given()
                 .contentType(JSON)
                 .when()
                 .headers(headers)
-                .get(apiPath+"/saliou-conde@gmx.de")
+                .get(PATH +"/saliou-conde@gmx.de")
                 .then()
                 .statusCode(OK.value());
-
+        assertThat(responseDto.getData()).isNotNull();
+        HttpRequestDto httpRequestDto = (HttpRequestDto) responseDto.getData().get(EMPLOYEE);
+        assertThat(httpRequestDto.getEmail()).isEqualTo(requestDto.getEmail());
+        assertThat(PATH +"/").isEqualTo(appConstantPath);
     }
 
     @Test
@@ -204,7 +210,7 @@ class EmployeeControllerTest {
                 .contentType(JSON)
                 .headers(headers)
                 .when()
-                .get(apiPath+"/saliou-conde@gmx1.de")
+                .get(PATH +"/saliou-conde@gmx1.de")
                 .then()
                 .statusCode(NOT_FOUND.value());
 
@@ -231,7 +237,7 @@ class EmployeeControllerTest {
                 .contentType(JSON)
                 .headers(headers)
                 .when()
-                .delete(apiPath+"/saliou-conde@gmx.de")
+                .delete(PATH +"/saliou-conde@gmx.de")
                 .then()
                 .statusCode(OK.value());
         assertThat(validatableResponse).isNotNull();
@@ -258,7 +264,7 @@ class EmployeeControllerTest {
                 .contentType(JSON)
                 .headers(headers)
                 .when()
-                .delete(apiPath+"/saliou-conde@gmx1.de")
+                .delete(PATH +"/saliou-conde@gmx1.de")
                 .then()
                 .statusCode(NOT_FOUND.value());
         assertThat(validatableResponse).isNotNull();

@@ -17,14 +17,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
-import static akros.employee.employeemanager.constant.AppConstant.API_PATH;
+import static akros.employee.employeemanager.constant.AppConstant.*;
 import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidation.VALID;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
 @Slf4j
 public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, HttpResponseDto> {
-    public static final String EMPLOYEE = "employee";
     private final EmployeeRepository repository;
     private static final EmployeeMapper mapper = EmployeeMapper.INSTANCE;
     public EmployeeServiceImpl(EmployeeRepository repository) {
