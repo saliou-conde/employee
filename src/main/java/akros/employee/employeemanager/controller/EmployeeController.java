@@ -28,19 +28,19 @@ public class EmployeeController {
 
     @GetMapping("/{email}")
     public ResponseEntity<HttpResponseDto> findEmployeeByEmail(@PathVariable("email") String email) {
-        HttpResponseDto responseDto = service.findEmployeeByEmail(email);
+        var responseDto = service.findEmployeeByEmail(email);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }
 
     @PostMapping
     public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody HttpRequestDto dto) {
-        HttpResponseDto responseDto = service.saveEmployee(dto);
+        var responseDto = service.saveEmployee(dto);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }
 
     @DeleteMapping("/{email}")
     public ResponseEntity<HttpResponseDto> deleteEmployee(@PathVariable("email") String email) {
-        HttpResponseDto responseDto = service.deleteEmployeeByEmail(email);
+        var responseDto = service.deleteEmployeeByEmail(email);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }
 

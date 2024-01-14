@@ -12,7 +12,7 @@ class EmployeeMapperTest {
     @Test
     void mapToEmployee() {
         //Given
-        HttpRequestDto requestDto = new HttpRequestDto();
+        var requestDto = new HttpRequestDto();
         requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
@@ -21,7 +21,7 @@ class EmployeeMapperTest {
         requestDto.setJobCode(randomUUID().toString());
 
         //When
-        Employee employee = EmployeeMapper.INSTANCE.mapToEmployee(requestDto);
+        var employee = EmployeeMapper.INSTANCE.mapToEmployee(requestDto);
 
         //Then
         assertThat(employee).isNotNull();
@@ -38,7 +38,7 @@ class EmployeeMapperTest {
     @Test
     void mapToEmployeeRequestDto() {
         //Given
-        Employee employee = new Employee(
+        var employee = new Employee(
                 randomUUID().toString(),
                 "Saliou",
                 "Condé",
@@ -47,7 +47,7 @@ class EmployeeMapperTest {
                 "123456");
 
         //When
-        HttpRequestDto httpRequestDto = EmployeeMapper.INSTANCE.mapToEmployeeRequestDto(employee);
+        var httpRequestDto = EmployeeMapper.INSTANCE.mapToEmployeeRequestDto(employee);
 
         //Then
         assertThat(httpRequestDto).isNotNull();
