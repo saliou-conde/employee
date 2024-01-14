@@ -4,8 +4,7 @@ import akros.employee.employeemanager.domain.Employee;
 import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import org.junit.jupiter.api.Test;
 
-import java.util.UUID;
-
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class EmployeeMapperTest {
@@ -14,12 +13,12 @@ class EmployeeMapperTest {
     void mapToEmployee() {
         //Given
         HttpRequestDto requestDto = new HttpRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
 
         //When
         Employee employee = EmployeeMapper.INSTANCE.mapToEmployee(requestDto);
@@ -39,12 +38,13 @@ class EmployeeMapperTest {
     @Test
     void mapToEmployeeRequestDto() {
         //Given
-        Employee employee = new Employee();
-        employee.setId(UUID.randomUUID().toString());
-        employee.setEmail("saliou-conde@gmx.de");
-        employee.setFirstname("Saliou");
-        employee.setLastname("Condé");
-        employee.setJobCode(UUID.randomUUID().toString());
+        Employee employee = new Employee(
+                randomUUID().toString(),
+                "Saliou",
+                "Condé",
+                "saliou-conde@gmx.de",
+                randomUUID().toString(),
+                "123456");
 
         //When
         HttpRequestDto httpRequestDto = EmployeeMapper.INSTANCE.mapToEmployeeRequestDto(employee);

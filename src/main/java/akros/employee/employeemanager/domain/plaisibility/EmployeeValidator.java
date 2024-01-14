@@ -8,7 +8,6 @@ import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidat
 
 public interface EmployeeValidator extends Function<Employee, EmployeeValidation> {
 
-
     static EmployeeValidator findEmployeeByEmail(String email) {
         return employee -> employee != null && employee.getEmail().equals(email) ? VALID : EMPLOYEE_NOT_FOUND_BY_EMAIL;
     }
@@ -33,7 +32,7 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
     default EmployeeValidator and(EmployeeValidator other) {
         return employee -> {
             EmployeeValidation result = this.apply(employee);
-            return result.equals(EmployeeValidation.VALID) ? other.apply(employee) : result;
+            return result.equals(VALID) ? other.apply(employee) : result;
         };
     }
 }
