@@ -31,7 +31,7 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
 
     default EmployeeValidator and(EmployeeValidator other) {
         return employee -> {
-            EmployeeValidation result = this.apply(employee);
+            var result = this.apply(employee);
             return result.equals(VALID) ? other.apply(employee) : result;
         };
     }
