@@ -4,6 +4,7 @@ import akros.employee.employeemanager.domain.Employee;
 import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import org.junit.jupiter.api.Test;
 
+import static akros.employee.employeemanager.domain.mapper.EmployeeMapper.INSTANCE;
 import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +22,7 @@ class EmployeeMapperTest {
         requestDto.setJobCode(randomUUID().toString());
 
         //When
-        var employee = EmployeeMapper.INSTANCE.mapToEmployee(requestDto);
+        var employee = INSTANCE.mapToEmployee(requestDto);
 
         //Then
         assertThat(employee).isNotNull();
@@ -47,7 +48,7 @@ class EmployeeMapperTest {
                 "123456");
 
         //When
-        var httpRequestDto = EmployeeMapper.INSTANCE.mapToEmployeeRequestDto(employee);
+        var httpRequestDto = INSTANCE.mapToEmployeeRequestDto(employee);
 
         //Then
         assertThat(httpRequestDto).isNotNull();
