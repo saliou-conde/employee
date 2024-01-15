@@ -170,7 +170,7 @@ class EmployeeControllerTest {
         requestDto.setJobCode(UUID.randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
-        var appConstantPath = AppConstant.API_PATH;
+        var appConstantPath = AppConstant.EMPLOYEE_API_PATH;
 
         //When
         var responseDto = service.saveEmployee(requestDto);

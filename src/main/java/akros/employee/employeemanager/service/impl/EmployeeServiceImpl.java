@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static akros.employee.employeemanager.constant.AppConstant.API_PATH;
+import static akros.employee.employeemanager.constant.AppConstant.EMPLOYEE_API_PATH;
 import static akros.employee.employeemanager.constant.AppConstant.EMPLOYEE;
 import static akros.employee.employeemanager.domain.mapper.EmployeeMapper.INSTANCE;
 import static akros.employee.employeemanager.domain.plaisibility.EmployeeValidation.VALID;
@@ -47,7 +47,7 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
                     .error(NOT_ACCEPTABLE.toString())
                     .data(Map.of(EMPLOYEE, new HttpRequestDto()))
                     .message(validation.getDescription())
-                    .path(API_PATH)
+                    .path(EMPLOYEE_API_PATH)
                     .build();
         }
 
@@ -64,7 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
                     .error(BAD_REQUEST.toString())
                     .message(validation.getDescription())
                     .data(Map.of(BAD_REQUEST, dto))
-                    .path(API_PATH)
+                    .path(EMPLOYEE_API_PATH)
                     .build();
 
         }
@@ -79,12 +79,12 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
                 .statusCode(CREATED.value())
                 .message("Employee Successfully Added")
                 .data(Map.of(EMPLOYEE, dto))
-                .path(API_PATH)
+                .path(EMPLOYEE_API_PATH)
                 .build();
     }
 
     public HttpResponseDto findEmployeeByEmail(String email) {
-        var path = API_PATH+email;
+        var path = EMPLOYEE_API_PATH +email;
         var employeeRequestDto = EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findEmployee(email));
         var validation = EmployeeValidator.findEmployeeByEmail(email).apply(findEmployee(email));
         if(validation != VALID) {
@@ -118,7 +118,7 @@ public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, Http
     }
 
     public HttpResponseDto deleteEmployeeByEmail(String email) {
-        var path = API_PATH+email;
+        var path = EMPLOYEE_API_PATH +email;
         var employeeOptional = findEmployee(email);
         if(employeeOptional != null) {
             repository.delete(employeeOptional);

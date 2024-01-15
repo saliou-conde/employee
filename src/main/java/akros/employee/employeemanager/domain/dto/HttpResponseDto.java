@@ -18,4 +18,5 @@ public class HttpResponseDto {
     private Integer statusCode;
     private String timestamp;
     private Map<?,?> data;
+    private String token;
 }

@@ -26,18 +26,19 @@ import static jakarta.persistence.EnumType.STRING;
 public class AkrosUser implements UserDetails {
     @Id
     private String id;
-    @Column(length = 50, nullable = false)
+    @Column( nullable = false)
     private String firstname;
-    @Column(length = 50, nullable = false)
+    @Column( nullable = false)
     private String lastname;
-    @Column(length = 50, nullable = false, unique = true)
+    @Column( nullable = false, unique = true)
     private String username;
-    @Column(length = 50, nullable = false)
+    @Column( nullable = false)
     private String password;
-    @Column(length = 50, nullable = false)
+    @Column( nullable = false)
     private String email;
     private String profileImageUrl;
     private String lastLoginDate;
+    @Column(nullable = false)
     private String joinDate;
     @Enumerated(STRING)
     private Role role;
