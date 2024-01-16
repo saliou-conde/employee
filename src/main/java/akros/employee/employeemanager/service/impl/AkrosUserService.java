@@ -56,9 +56,9 @@ public class AkrosUserService {
     }
 
     public HttpResponseDto authenticate(LoginRequestDto loginRequestDto) {
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword()));
         var userOptional = repository.findByUsername(loginRequestDto.getUsername());
         if(userOptional.isPresent()) {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequestDto.getUsername(), loginRequestDto.getPassword()));
             var jwtToken = jwtService.generateToken(userOptional.get());
 
             return HttpResponseDto.builder()
@@ -110,5 +110,9 @@ public class AkrosUserService {
                 .message("User Successfully Added")
                 .path(AKROS_API_PATH+"register")
                 .build();
+    }
+
+    public void deleteAllUsers() {
+        repository.deleteAll();
     }
 }

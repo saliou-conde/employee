@@ -4,9 +4,11 @@ import akros.employee.employeemanager.config.SecurityConfig;
 import akros.employee.employeemanager.constant.AppConstant;
 import akros.employee.employeemanager.domain.dto.HttpRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
+import akros.employee.employeemanager.domain.dto.LoginRequestDto;
 import akros.employee.employeemanager.service.EmployeeService;
-import akros.employee.employeemanager.service.impl.TokenService;
+import akros.employee.employeemanager.service.impl.AkrosUserService;
 import io.restassured.RestAssured;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,6 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.Base64;
 import java.util.UUID;
 
 import static akros.employee.employeemanager.constant.AppConstant.EMPLOYEE;
@@ -31,13 +32,12 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
-import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.*;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({SecurityConfig.class, TokenService.class})
+@Import({SecurityConfig.class})
 class EmployeeControllerTest {
 
     @LocalServerPort
@@ -56,20 +56,40 @@ class EmployeeControllerTest {
     private TestRestTemplate restTemplate;
     private final String PATH = "/api/v1/employees";
     private String token;
+    @Autowired
+    private AuthenticationController authenticationController;
+
+    @Autowired
+    private AkrosUserService akrosUserService;
+
+    @AfterEach
+    void deleteEntities() {
+        akrosUserService.deleteAllUsers();
+    }
 
     @BeforeEach
     void setUp() {
+        LoginRequestDto loginRequestDto = new LoginRequestDto();
+        loginRequestDto.setUsername("saliou");
+        loginRequestDto.setPassword("12346");
+        loginRequestDto.setEmail("saliou-conde@gmx.de");
+        loginRequestDto.setFirstname("Saliou");
+        loginRequestDto.setLastname("Conde");
+        HttpResponseDto register = authenticationController.register(loginRequestDto).getBody();
 
-        var headers = new HttpHeaders();
+        assertThat(register).isNotNull();
+        assertThat(authenticationController.active(loginRequestDto.getUsername())).isNotNull();
+
         // create auth credentials
-        var authStr = "saliou:password";
-        var base64Creds = Base64.getEncoder().encodeToString(authStr.getBytes());
-        headers.add(AUTHORIZATION, "Basic " + base64Creds);
+        loginRequestDto.setPassword("12346");
+        HttpResponseDto body = authenticationController.authenticate(loginRequestDto).getBody();
+
+        assertThat(body).isNotNull();
+        token =  body.getToken();
 
         RestAssured.baseURI = "http://localhost:" + port;
         service.deleteAllEmployees();
-        var response = restTemplate.exchange(PATH +"/token", HttpMethod.POST, new HttpEntity<>(headers), String.class);
-        token = response.getBody();
+
     }
 
     @Test
