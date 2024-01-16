@@ -25,11 +25,10 @@ import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import java.util.UUID;
-
 import static akros.employee.employeemanager.constant.AppConstant.EMPLOYEE;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static java.util.UUID.randomUUID;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpStatus.*;
@@ -96,12 +95,12 @@ class EmployeeControllerTest {
     void should_add_employee() {
         //Given
         var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);;
 
@@ -114,13 +113,23 @@ class EmployeeControllerTest {
     @Test
     void should_not_add_employee_by_already_existing_mail() {
         //Given
-        var requestDto = new EmployeeRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), "19A12iou#");
+        var requestDto = new EmployeeRequestDto(
+                randomUUID().toString(),
+                "Saliou",
+                "Condé",
+                "saliou-conde@gmx.de",
+                randomUUID().toString(),
+                "19A12iou#");
         service.saveEmployee(requestDto);
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        var response = restTemplate.exchange(
+                PATH,
+                HttpMethod.POST,
+                new HttpEntity<>(requestDto, headers),
+                HttpResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(NOT_ACCEPTABLE.value());
         var responseDto = response.getBody();
@@ -131,13 +140,23 @@ class EmployeeControllerTest {
     @Test
     void should_not_add_employee_by_invalid_password() {
         //Given
-        var requestDto = new EmployeeRequestDto(UUID.randomUUID().toString(), "Saliou", "Condé", "saliou-conde@gmx.de", UUID.randomUUID().toString(), null);
+        var requestDto = new EmployeeRequestDto(
+                randomUUID().toString(),
+                "Saliou",
+                "Condé",
+                "saliou-conde@gmx.de",
+                randomUUID().toString(),
+                null);
         service.saveEmployee(requestDto);
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        var response = restTemplate.exchange(
+                PATH,
+                HttpMethod.POST,
+                new HttpEntity<>(requestDto, headers),
+                HttpResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(BAD_REQUEST.value());
         var responseDto = response.getBody();
@@ -149,20 +168,20 @@ class EmployeeControllerTest {
     void should_get_all_employees() {
         //Given
         var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         service.saveEmployee(requestDto);
 
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("aliou-conde@gmx.de");
         requestDto.setFirstname("Aliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         service.saveEmployee(requestDto);
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
@@ -182,12 +201,12 @@ class EmployeeControllerTest {
     void should_find_employee_by_email() {
         //Given
         var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         var appConstantPath = AppConstant.EMPLOYEE_API_PATH;
@@ -213,12 +232,12 @@ class EmployeeControllerTest {
     void should_not_find_employee_by_email() {
         //Given
         var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -240,12 +259,12 @@ class EmployeeControllerTest {
     void should_delete_employee_by_email() {
         //Given
         var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -267,12 +286,12 @@ class EmployeeControllerTest {
     void should_not_delete_employee_by_email() {
         //Given
         var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(UUID.randomUUID().toString());
+        requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(UUID.randomUUID().toString());
+        requestDto.setJobCode(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 

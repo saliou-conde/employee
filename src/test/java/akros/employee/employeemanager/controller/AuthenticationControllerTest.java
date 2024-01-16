@@ -54,10 +54,18 @@ class AuthenticationControllerTest {
         loginRequestDto.setEmail("saliou-conde@gmx.de");
         loginRequestDto.setFirstname("Saliou");
         loginRequestDto.setLastname("Conde");
-        var response = restTemplate.exchange("/api/v1/auth/register", HttpMethod.POST, new HttpEntity<>(loginRequestDto), HttpResponseDto.class);
+        var response = restTemplate.exchange(
+                "/api/v1/auth/register",
+                HttpMethod.POST,
+                new HttpEntity<>(loginRequestDto),
+                HttpResponseDto.class);
 
         assertThat(response.getBody()).isNotNull();
-        ResponseEntity<HttpResponseDto> active = restTemplate.exchange("/api/v1/auth/saliou", HttpMethod.POST, null, HttpResponseDto.class);
+        ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
+                "/api/v1/auth/saliou",
+                HttpMethod.POST,
+                null,
+                HttpResponseDto.class);
         assertThat(active).isNotNull();
 
     }
@@ -70,7 +78,11 @@ class AuthenticationControllerTest {
         loginRequestDto.setPassword("12346");
 
         //When
-        var response = restTemplate.exchange("/api/v1/auth/authenticate", HttpMethod.POST, new HttpEntity<>(loginRequestDto), HttpResponseDto.class);
+        var response = restTemplate.exchange(
+                "/api/v1/auth/authenticate",
+                HttpMethod.POST,
+                new HttpEntity<>(loginRequestDto),
+                HttpResponseDto.class);
 
         //Then
         assertThat(response.getBody()).isNotNull();
@@ -85,7 +97,11 @@ class AuthenticationControllerTest {
         loginRequestDto.setPassword("12346");
 
         //When
-        var response = restTemplate.exchange("/api/v1/auth/authenticate", HttpMethod.POST, new HttpEntity<>(loginRequestDto), HttpResponseDto.class);
+        var response = restTemplate.exchange(
+                "/api/v1/auth/authenticate",
+                HttpMethod.POST,
+                new HttpEntity<>(loginRequestDto),
+                HttpResponseDto.class);
 
         //Then
         assertThat(response.getBody()).isNotNull();
@@ -98,7 +114,11 @@ class AuthenticationControllerTest {
         String username = "non-existing";
 
         //When
-        ResponseEntity<HttpResponseDto> active = restTemplate.exchange("/api/v1/auth/active/"+username, HttpMethod.POST, null, HttpResponseDto.class);
+        ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
+                "/api/v1/auth/active/"+username,
+                HttpMethod.POST,
+                null,
+                HttpResponseDto.class);
 
         //Then
         assertThat(active.getBody()).isNotNull();
