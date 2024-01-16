@@ -1,7 +1,7 @@
 package akros.employee.employeemanager.domain.mapper;
 
 import akros.employee.employeemanager.domain.Employee;
-import akros.employee.employeemanager.domain.dto.HttpRequestDto;
+import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
 import org.junit.jupiter.api.Test;
 
 import static akros.employee.employeemanager.domain.mapper.EmployeeMapper.INSTANCE;
@@ -13,7 +13,7 @@ class EmployeeMapperTest {
     @Test
     void mapToEmployee() {
         //Given
-        var requestDto = new HttpRequestDto();
+        var requestDto = new EmployeeRequestDto();
         requestDto.setEmployeeId(randomUUID().toString());
         requestDto.setEmail("saliou-conde@gmx.de");
         requestDto.setFirstname("Saliou");

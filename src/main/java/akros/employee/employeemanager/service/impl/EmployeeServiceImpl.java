@@ -1,12 +1,13 @@
 package akros.employee.employeemanager.service.impl;
 
 import akros.employee.employeemanager.domain.Employee;
-import akros.employee.employeemanager.domain.dto.HttpRequestDto;
+import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.domain.mapper.EmployeeMapper;
 import akros.employee.employeemanager.domain.plaisibility.EmployeeValidator;
 import akros.employee.employeemanager.repository.EmployeeRepository;
 import akros.employee.employeemanager.service.EmployeeService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,13 @@ import static org.springframework.http.HttpStatus.*;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
+
     private final EmployeeRepository repository;
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
-    public EmployeeServiceImpl(EmployeeRepository repository) {
-        this.repository = repository;
-    }
 
-    public HttpResponseDto saveEmployee(HttpRequestDto dto) {
+    public HttpResponseDto saveEmployee(EmployeeRequestDto dto) {
         var findEmployee = findEmployee(dto.getEmail());
         var validation = EmployeeValidator
                 .isEmployeeValid()
@@ -45,7 +45,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .status(NOT_ACCEPTABLE)
                     .statusCode(NOT_ACCEPTABLE.value())
                     .error(NOT_ACCEPTABLE.toString())
-                    .data(Map.of(EMPLOYEE, new HttpRequestDto()))
+                    .data(Map.of(EMPLOYEE, new EmployeeRequestDto()))
                     .message(validation.getDescription())
                     .path(EMPLOYEE_API_PATH)
                     .build();
@@ -110,7 +110,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .build();
     }
 
-    public List<HttpRequestDto> findAllEmployees() {
+    public List<EmployeeRequestDto> findAllEmployees() {
         return repository.findAll()
                 .stream()
                 .map(EMPLOYEE_MAPPER::mapToEmployeeRequestDto)

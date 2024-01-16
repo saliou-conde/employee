@@ -1,6 +1,6 @@
 package akros.employee.employeemanager.controller;
 
-import akros.employee.employeemanager.domain.dto.HttpRequestDto;
+import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class EmployeeController {
     private final EmployeeService service;
 
     @GetMapping
-    public ResponseEntity<List<HttpRequestDto>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeRequestDto>> getAllEmployees() {
         return ResponseEntity.ok(service.findAllEmployees());
     }
 
@@ -30,7 +30,7 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody HttpRequestDto dto) {
+    public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody EmployeeRequestDto dto) {
         var responseDto = service.saveEmployee(dto);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }

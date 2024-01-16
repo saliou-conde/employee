@@ -16,7 +16,7 @@ import java.util.Date;
 import java.util.Map;
 import java.util.UUID;
 
-import static akros.employee.employeemanager.constant.AppConstant.AKROS_API_PATH;
+import static akros.employee.employeemanager.constant.AppConstant.AKROS_USER_API_PATH;
 import static akros.employee.employeemanager.constant.AppConstant.AKROS_USER;
 import static akros.employee.employeemanager.domain.enumeration.Role.ROLE_USER;
 import static akros.employee.employeemanager.domain.mapper.AkrosUserMapper.INSTANCE;
@@ -50,7 +50,7 @@ public class AkrosUserService {
                 .statusCode(CREATED.value())
                 .message("User Successfully registered")
                 .data(Map.of(AKROS_USER, loginRequestDto))
-                .path(AKROS_API_PATH+"register")
+                .path(AKROS_USER_API_PATH +"register")
                 .token(jwtToken)
                 .build();
     }
@@ -67,7 +67,7 @@ public class AkrosUserService {
                     .statusCode(OK.value())
                     .message("User Successfully logged in")
                     .data(Map.of(AKROS_USER, userOptional.get()))
-                    .path(AKROS_API_PATH+"authenticate")
+                    .path(AKROS_USER_API_PATH +"authenticate")
                     .token(jwtToken)
                     .build();
 
@@ -79,7 +79,7 @@ public class AkrosUserService {
                 .statusCode(FORBIDDEN.value())
                 .message(FORBIDDEN.toString())
                 .data(Map.of(AKROS_USER, loginRequestDto))
-                .path(AKROS_API_PATH)
+                .path(AKROS_USER_API_PATH)
                 .build();
     }
 
@@ -98,7 +98,7 @@ public class AkrosUserService {
                     .statusCode(OK.value())
                     .message("User Successfully Added")
                     .data(Map.of(AKROS_USER, MAPPER.mapToLoginRequestDto(akrosUser)))
-                    .path(AKROS_API_PATH+"register")
+                    .path(AKROS_USER_API_PATH +"register")
                     .token(jwtToken)
                     .build();
         }
@@ -108,7 +108,7 @@ public class AkrosUserService {
                 .status(NOT_FOUND)
                 .statusCode(NOT_FOUND.value())
                 .message("User Successfully Added")
-                .path(AKROS_API_PATH+"register")
+                .path(AKROS_USER_API_PATH +"register")
                 .build();
     }
 
