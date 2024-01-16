@@ -28,7 +28,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticate, authenticate.getStatus());
     }
 
-    @PostMapping("/{username}")
+    @PostMapping("active/{username}")
     public ResponseEntity<HttpResponseDto> active(@PathVariable("username") String username) {
         HttpResponseDto authenticate = service.active(username);
         return new ResponseEntity<>(authenticate, authenticate.getStatus());

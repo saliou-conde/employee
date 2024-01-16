@@ -98,7 +98,7 @@ class AuthenticationControllerTest {
         String username = "non-existing";
 
         //When
-        ResponseEntity<HttpResponseDto> active = restTemplate.exchange("/api/v1/auth/"+username, HttpMethod.POST, null, HttpResponseDto.class);
+        ResponseEntity<HttpResponseDto> active = restTemplate.exchange("/api/v1/auth/active/"+username, HttpMethod.POST, null, HttpResponseDto.class);
 
         //Then
         assertThat(active.getBody()).isNotNull();
