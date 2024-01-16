@@ -1,8 +1,8 @@
 package akros.employee.employeemanager.controller;
 
 import akros.employee.employeemanager.config.SecurityConfig;
-import akros.employee.employeemanager.domain.dto.HttpResponseDto;
-import akros.employee.employeemanager.domain.dto.LoginRequestDto;
+import akros.employee.employeemanager.dto.HttpResponseDto;
+import akros.employee.employeemanager.dto.LoginRequestDto;
 import akros.employee.employeemanager.service.impl.AkrosUserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;

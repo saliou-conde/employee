@@ -1,8 +1,8 @@
 package akros.employee.employeemanager.service.impl;
 
 import akros.employee.employeemanager.domain.Employee;
-import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
-import akros.employee.employeemanager.domain.dto.HttpResponseDto;
+import akros.employee.employeemanager.dto.EmployeeRequestDto;
+import akros.employee.employeemanager.dto.HttpResponseDto;
 import akros.employee.employeemanager.domain.mapper.EmployeeMapper;
 import akros.employee.employeemanager.domain.plaisibility.EmployeeValidator;
 import akros.employee.employeemanager.repository.EmployeeRepository;

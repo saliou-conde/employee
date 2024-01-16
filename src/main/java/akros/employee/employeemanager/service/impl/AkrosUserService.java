@@ -1,8 +1,8 @@
 package akros.employee.employeemanager.service.impl;
 
 import akros.employee.employeemanager.domain.AkrosUser;
-import akros.employee.employeemanager.domain.dto.HttpResponseDto;
-import akros.employee.employeemanager.domain.dto.LoginRequestDto;
+import akros.employee.employeemanager.dto.HttpResponseDto;
+import akros.employee.employeemanager.dto.LoginRequestDto;
 import akros.employee.employeemanager.domain.mapper.AkrosUserMapper;
 import akros.employee.employeemanager.repository.AkrosUserRepository;
 import lombok.RequiredArgsConstructor;

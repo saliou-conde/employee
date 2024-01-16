@@ -1,7 +1,7 @@
 package akros.employee.employeemanager.domain.mapper;
 
 import akros.employee.employeemanager.domain.AkrosUser;
-import akros.employee.employeemanager.domain.dto.LoginRequestDto;
+import akros.employee.employeemanager.dto.LoginRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;

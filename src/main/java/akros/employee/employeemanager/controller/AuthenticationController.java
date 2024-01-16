@@ -1,7 +1,7 @@
 package akros.employee.employeemanager.controller;
 
-import akros.employee.employeemanager.domain.dto.HttpResponseDto;
-import akros.employee.employeemanager.domain.dto.LoginRequestDto;
+import akros.employee.employeemanager.dto.HttpResponseDto;
+import akros.employee.employeemanager.dto.LoginRequestDto;
 import akros.employee.employeemanager.service.impl.AkrosUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

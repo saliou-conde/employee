@@ -1,4 +1,4 @@
-package akros.employee.employeemanager.domain.dto;
+package akros.employee.employeemanager.dto;
 
 import lombok.Builder;
 import lombok.Getter;

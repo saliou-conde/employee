@@ -1,7 +1,7 @@
 package akros.employee.employeemanager.service;
 
-import akros.employee.employeemanager.domain.dto.EmployeeRequestDto;
-import akros.employee.employeemanager.domain.dto.HttpResponseDto;
+import akros.employee.employeemanager.dto.EmployeeRequestDto;
+import akros.employee.employeemanager.dto.HttpResponseDto;
 
 import java.util.List;
 
