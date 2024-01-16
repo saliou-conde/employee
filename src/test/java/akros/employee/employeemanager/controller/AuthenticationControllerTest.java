@@ -4,7 +4,6 @@ import akros.employee.employeemanager.config.SecurityConfig;
 import akros.employee.employeemanager.domain.dto.HttpResponseDto;
 import akros.employee.employeemanager.domain.dto.LoginRequestDto;
 import akros.employee.employeemanager.service.impl.AkrosUserService;
-import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
-import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
@@ -23,7 +21,6 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Testcontainers
@@ -31,9 +28,6 @@ import static org.springframework.http.HttpStatus.*;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Import({SecurityConfig.class})
 class AuthenticationControllerTest {
-
-    @LocalServerPort
-    private Integer port;
 
     @Container
     @ServiceConnection
@@ -66,30 +60,31 @@ class AuthenticationControllerTest {
         ResponseEntity<HttpResponseDto> active = restTemplate.exchange("/api/v1/auth/saliou", HttpMethod.POST, null, HttpResponseDto.class);
         assertThat(active).isNotNull();
 
-        RestAssured.baseURI = "http://localhost:" + port;
-
     }
 
     @Test
     void should_not_authenticate_by_invalid_credentials() {
-
-        // create auth credentials
+        // Given
         LoginRequestDto loginRequestDto = new LoginRequestDto();
         loginRequestDto.setUsername("non-existing");
         loginRequestDto.setPassword("12346");
+
+        //When
         var response = restTemplate.exchange("/api/v1/auth/authenticate", HttpMethod.POST, new HttpEntity<>(loginRequestDto), HttpResponseDto.class);
 
+        //Then
         assertThat(response.getBody()).isNotNull();
         assertThat(response.getBody().getStatus()).isEqualTo(FORBIDDEN);
     }
 
     @Test
     void should_authenticate() {
-
-        // create auth credentials
+        // Given
         LoginRequestDto loginRequestDto = new LoginRequestDto();
         loginRequestDto.setUsername("saliou");
         loginRequestDto.setPassword("12346");
+
+        //When
         var response = restTemplate.exchange("/api/v1/auth/authenticate", HttpMethod.POST, new HttpEntity<>(loginRequestDto), HttpResponseDto.class);
 
         //Then
