@@ -23,7 +23,7 @@ import static org.springframework.http.HttpStatus.*;
 
 @Service
 @Slf4j
-public class EmployeeServiceImpl implements EmployeeService<HttpRequestDto, HttpResponseDto> {
+public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository repository;
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
     public EmployeeServiceImpl(EmployeeRepository repository) {

@@ -50,7 +50,7 @@ class EmployeeControllerTest {
     );
 
     @Autowired
-    private EmployeeService<HttpRequestDto, HttpResponseDto> service;
+    private EmployeeService service;
 
     @Autowired
     private TestRestTemplate restTemplate;

@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class EmployeeController {
 
-    private final EmployeeService<HttpRequestDto, HttpResponseDto> service;
+    private final EmployeeService service;
 
     @GetMapping
     public ResponseEntity<List<HttpRequestDto>> getAllEmployees() {

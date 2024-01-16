@@ -1,12 +1,15 @@
 package akros.employee.employeemanager.service;
 
+import akros.employee.employeemanager.domain.dto.HttpRequestDto;
+import akros.employee.employeemanager.domain.dto.HttpResponseDto;
+
 import java.util.List;
 
 
-public interface EmployeeService<T, U> {
-    U saveEmployee(T dto);
-    U findEmployeeByEmail(String email);
-    List<T> findAllEmployees() ;
-    U deleteEmployeeByEmail(String email);
+public interface EmployeeService {
+    HttpResponseDto saveEmployee(HttpRequestDto dto);
+    HttpResponseDto findEmployeeByEmail(String email);
+    List<HttpRequestDto> findAllEmployees() ;
+    HttpResponseDto deleteEmployeeByEmail(String email);
     void deleteAllEmployees();
 }
