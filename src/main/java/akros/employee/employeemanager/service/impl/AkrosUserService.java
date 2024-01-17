@@ -96,9 +96,9 @@ public class AkrosUserService {
                     .timestamp(Instant.now().toString())
                     .status(OK)
                     .statusCode(OK.value())
-                    .message("User Successfully Added")
+                    .message("User found by username")
                     .data(Map.of(AKROS_USER, MAPPER.mapToLoginRequestDto(akrosUser)))
-                    .path(AKROS_USER_API_PATH +"register")
+                    .path(AKROS_USER_API_PATH +"active/"+username)
                     .token(jwtToken)
                     .build();
         }
@@ -107,8 +107,8 @@ public class AkrosUserService {
                 .timestamp(Instant.now().toString())
                 .status(NOT_FOUND)
                 .statusCode(NOT_FOUND.value())
-                .message("User Successfully Added")
-                .path(AKROS_USER_API_PATH +"register")
+                .message("User not found by username: "+username)
+                .path(AKROS_USER_API_PATH +"active/"+username)
                 .build();
     }
 
