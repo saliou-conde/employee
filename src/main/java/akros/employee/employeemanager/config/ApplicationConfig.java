@@ -9,9 +9,9 @@ import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -27,24 +27,22 @@ import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
+import static java.util.Objects.requireNonNull;
+
 @Configuration
 @RequiredArgsConstructor
 @Slf4j
 public class ApplicationConfig {
 
     private final RsaKeyProperties rsaKeyProperties;
-    @Value("${in.memory.username}")
-    private String loginName;
-    @Value("${in.memory.password}")
-    private String password;
-
     private final AkrosUserRepository repository;
+    private final Environment environment;
 
     @Bean
     public InMemoryUserDetailsManager user() {
         return new InMemoryUserDetailsManager(
-                User.withUsername(loginName)
-                        .password(password)
+                User.withUsername(environment.getProperty("in.memory.username"))
+                        .password(requireNonNull(environment.getProperty("in.memory.password")))
                         .authorities("read").build());
     }
     @Bean
