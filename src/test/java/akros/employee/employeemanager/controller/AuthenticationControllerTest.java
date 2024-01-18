@@ -21,11 +21,13 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.*;
+import static  org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@SpringBootTest(webEnvironment = RANDOM_PORT)
+@AutoConfigureTestDatabase(replace = NONE)
 @Import({SecurityConfig.class})
 class AuthenticationControllerTest {
 
@@ -62,7 +64,7 @@ class AuthenticationControllerTest {
 
         assertThat(response.getBody()).isNotNull();
         ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
-                "/api/v1/auth/saliou",
+                "/api/v1/auth/active/saliou",
                 HttpMethod.POST,
                 null,
                 HttpResponseDto.class);

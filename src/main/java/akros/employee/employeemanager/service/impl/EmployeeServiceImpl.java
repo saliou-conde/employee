@@ -9,6 +9,7 @@ import akros.employee.employeemanager.repository.EmployeeRepository;
 import akros.employee.employeemanager.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -28,6 +29,8 @@ import static org.springframework.http.HttpStatus.*;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository repository;
+
+    private final PasswordEncoder passwordEncoder;
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
 
     public HttpResponseDto saveEmployee(EmployeeRequestDto dto) {
@@ -71,6 +74,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         dto.setEmployeeId(UUID.randomUUID().toString());
         var employeeToSave = EMPLOYEE_MAPPER.mapToEmployee(dto);
+        employeeToSave.setPassword(passwordEncoder.encode(dto.getPassword()));
         repository.save(employeeToSave);
 
         return HttpResponseDto.builder()
