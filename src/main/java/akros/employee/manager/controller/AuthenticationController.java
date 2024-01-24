@@ -3,6 +3,7 @@ package akros.employee.manager.controller;
 import akros.employee.manager.dto.HttpResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.service.impl.AkrosUserService;
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,7 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticate, authenticate.getStatus());
     }
 
+    @Hidden
     @PostMapping("/active/{username}")
     public ResponseEntity<HttpResponseDto> active(@PathVariable("username") String username) {
         HttpResponseDto authenticate = service.active(username);

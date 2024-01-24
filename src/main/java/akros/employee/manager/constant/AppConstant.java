@@ -11,21 +11,14 @@ public class AppConstant {
             "/api/v1/auth/authenticate",
             "/api/v1/auth/active/**",
             "/v2/api-docs",
-            "/configuration/ui",
+            "/v3/api-docs",
+            "/v3/api-docs/**",
+            "/swagger-resources",
             "/swagger-resources/**",
-            "/webjars/**",
+            "/configuration/ui",
             "/configuration/security",
+            "/swagger-ui/**",
+            "/webjars/**",
             "/swagger-ui.html"
     };
-
-    //Swagger
-    public static final String API_TITLE = "Employee Manager API";
-    public static final String APT_DESCRIPTION = "This API can be used to manage actions and information for an Employee";
-    public static final String API_VERSION = "V1.0";
-    public static final String API_CONTACT = "V1.0";
-    public static final String API_MAIL = "V1.0";
-    public static final String CONTACT_NAME = "V1.0";
-    public static final String SECURITY_REFERENCE = "V1.0";
-    public static final String AUTHORIZATION_SCOPE = "V1.0";
-    public static final String AUTHORIZATION_DESCRIPTION = "V1.0";
 }

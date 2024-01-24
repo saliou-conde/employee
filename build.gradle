@@ -35,9 +35,12 @@ dependencies {
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
     //Swagger using spring fox
-    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
-    implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+    //implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
+    //implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
+    //implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
