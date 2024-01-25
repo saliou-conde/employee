@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
-    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
-    <property name="LOG_FILE" value="logs/app.log"/>
+    <property name="logging.error.file.name" value="error-log" />
+    <property name="logging.error.file.path" value="./logs/"/>
+    <property name="logging.file.name" value="info-log" />
+    <property name="logging.file.path" value="./logs/"/>
 
-    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${LOG_FILE}</file>
+    <!-- Normal log appender -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${logging.file.path}/${logging.file.name}</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <fileNamePattern>app.%{yy-MM-dd}.%i.log</fileNamePattern>
             <!-- each archived file, size max 5KB-->
@@ -16,35 +18,66 @@
             <!-- 60 days to keep-->
             <maxHistory>60</maxHistory>
         </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO, DEBUG, TRACE</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMisMatch>NEUTRAL</onMisMatch>
+        </filter>
     </appender>
 
-    <encoder>
-        <pattern>%d %p %c{1.} [%t] %m%n</pattern>
-    </encoder>
+    <!-- Error log appender -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${logging.error.file.path}/${logging.error.file.name}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>app.%{yy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each archived file, size max 5KB-->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- total size of all archive files, if total size > 20 KB, it will delete old archived file-->
+            <totalSizeCap>20KB</totalSizeCap>
+            <!-- 180 days to keep-->
+            <maxHistory>180</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN, INFO, DEBUG, TRACE</level>
+            <onMatch>DENY</onMatch>
+            <onMisMatch>NEUTRAL</onMisMatch>
+        </filter>
+    </appender>
 
+    <!-- Console log appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <pattern>
                 %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
             </pattern>
 
-            <maxHistory>60</maxHistory>
+            <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+                <level>INFO, DEBUG, TRACE</level>
+            </filter>
+            <filter class="ch.qos.logback.classic.filter.LevelFilter">
+                <level>TRACE</level>
+                <onMatch>DENY</onMatch>
+                <onMisMatch>NEUTRAL</onMisMatch>
+            </filter>
+
         </layout>
     </appender>
 
-    <!--<logger name="akros.employee.manager" level="info" additivity="false">
-        <appender-ref ref="FILE-ROLLING"/>
-    </logger>
-
-    <root level="error">
-        <appender-ref ref="FILE-ROLLING"/>
-    </root>-->
-
-    <logger name="akros.employee.manager" level="debug" additivity="false">
-        <appender-ref ref="CONSOLE"/>
-    </logger>
-
-    <root level="error">
+    <root level="INFO">
+        <appender-ref ref="ERROR_FILE"/>
+        <appender-ref ref="INFO_FILE"/>
         <appender-ref ref="CONSOLE"/>
     </root>
 

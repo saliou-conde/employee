@@ -34,6 +34,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
 
     public HttpResponseDto saveEmployee(EmployeeRequestDto dto) {
+        log.info("Starting saveEmployee");
         var findEmployee = findEmployee(dto.getEmail());
         var validation = EmployeeValidator
                 .isEmployeeValid()
@@ -41,7 +42,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("ValidationResult: {}", validation);
 
         if( validation == VALID) {
-            validation = EmployeeValidator.employeeEmailAlreadyInUser(dto.getEmail()).apply(findEmployee);
+            String email = dto.getEmail();
+            validation = EmployeeValidator.employeeEmailAlreadyInUser(email).apply(findEmployee);
+            log.error("Employee email already in user: {}", email);
+            log.info("Started saveEmployee");
 
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
@@ -60,6 +64,8 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .and(EmployeeValidator.isEmployeePasswordValid(employee.getPassword()))
                 .apply(employee);
         if(validation != VALID) {
+            log.error(validation.getDescription());
+            log.info("Started saveEmployee");
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
                     .status(BAD_REQUEST)
@@ -76,6 +82,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         var employeeToSave = EMPLOYEE_MAPPER.mapToEmployee(dto);
         employeeToSave.setPassword(passwordEncoder.encode(dto.getPassword()));
         repository.save(employeeToSave);
+        log.info("Started saveEmployee");
 
         return HttpResponseDto.builder()
                 .timestamp(Instant.now().toString())
@@ -88,10 +95,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public HttpResponseDto findEmployeeByEmail(String email) {
+        log.info("Starting findEmployeeByEmail");
         var path = EMPLOYEE_API_PATH +email;
         var employeeRequestDto = EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findEmployee(email));
         var validation = EmployeeValidator.findEmployeeByEmail(email).apply(findEmployee(email));
         if(validation != VALID) {
+            log.error(validation.getDescription());
+            log.info("Started findEmployeeByEmail");
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
                     .message("Employee not found by email: "+email)
@@ -103,6 +113,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         }
 
+        log.info("Started findEmployeeByEmail");
         return HttpResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .message("Employee found by email: "+email)
@@ -122,10 +133,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     public HttpResponseDto deleteEmployeeByEmail(String email) {
+        log.info("Starting deleteEmployeeByEmail");
         var path = EMPLOYEE_API_PATH +email;
         var employeeOptional = findEmployee(email);
         if(employeeOptional != null) {
+            log.info("Employee found by email: {}", email);
             repository.delete(employeeOptional);
+            log.info("Started deleteEmployeeByEmail");
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
                     .message("Employee with the email: "+email+" has been deleted.")
@@ -136,10 +150,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                     .build();
         }
 
+        log.error("Employee not found by email.");
+        log.info("Started deleteEmployeeByEmail");
         return  HttpResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .error(NOT_FOUND.toString())
-                .message("Employee with the email: "+email+" has been deleted.")
+                .message("Employee not found by email.")
                 .status(NOT_FOUND)
                 .statusCode(NOT_FOUND.value())
                 .path(path)

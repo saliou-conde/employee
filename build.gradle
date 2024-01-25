@@ -22,40 +22,42 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springVersion = '3.2.1'
+    mapStructVersion = '1.6.0.Beta1'
+    jwtVersion = '0.11.5'
+}
+
 dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: '3.2.1'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-devtools', version: "${springVersion}"
     //Security
-    implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
-    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
-    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'com.auth0', name: 'java-jwt',                            version: '4.4.0'
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api',                      version: "${jwtVersion}"
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-impl',                     version: "${jwtVersion}"
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-jackson',                  version: "${jwtVersion}"
+    implementation group: 'org.apache.commons', name: 'commons-lang3',              version: '3.12.0'
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
-    //Swagger using spring fox
-    //implementation group: 'io.springfox', name: 'springfox-swagger2', version: '3.0.0'
-    //implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '3.0.0'
-    //implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
-
+    //Open Api Swagger Dependency
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.1.0'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
-    implementation 'org.mapstruct:mapstruct:1.6.0.Beta1'
+    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
 
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.0.Beta1'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
 
-    testImplementation group: 'org.springframework.boot', name: 'spring-boot-testcontainers', version: '3.2.1'
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-testcontainers', version: "${springVersion}"
     testImplementation 'org.springframework.security:spring-security-test'
 
     testImplementation 'org.testcontainers:junit-jupiter'
