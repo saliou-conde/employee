@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+    <property name="LOG_FILE" value="logs/app.log"/>
+
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>app.%{yy-MM-dd}.%i.log</fileNamePattern>
+            <!-- each archived file, size max 5KB-->
+            <maxFileSize>10MB</maxFileSize>
+
+            <!-- total size of all archive files, if total size > 20 KB, it will delete old archived file-->
+            <totalSizeCap>20KB</totalSizeCap>
+            <!-- 60 days to keep-->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <encoder>
+        <pattern>%d %p %c{1.} [%t] %m%n</pattern>
+    </encoder>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>
+                %d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n
+            </pattern>
+
+            <maxHistory>60</maxHistory>
+        </layout>
+    </appender>
+
+    <!--<logger name="akros.employee.manager" level="info" additivity="false">
+        <appender-ref ref="FILE-ROLLING"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="FILE-ROLLING"/>
+    </root>-->
+
+    <logger name="akros.employee.manager" level="debug" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="CONSOLE"/>
+    </root>
+
+</configuration>
