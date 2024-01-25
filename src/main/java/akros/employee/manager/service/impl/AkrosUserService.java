@@ -38,7 +38,6 @@ public class AkrosUserService {
     private final AuthenticationManager authenticationManager;
 
     public HttpResponseDto register(LoginRequestDto loginRequestDto) {
-        log.info("Starting register()");
         var akrosUser = MAPPER.mapToAkrosUser(loginRequestDto);
         akrosUser.setId(UUID.randomUUID().toString());
         akrosUser.setJoinDate(new Date().toString());
@@ -48,7 +47,6 @@ public class AkrosUserService {
         var jwtToken = jwtService.generateToken(akrosUser);
 
         log.info(CREATED.getReasonPhrase());
-        log.info("Started register()");
         return HttpResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(CREATED)
@@ -61,14 +59,12 @@ public class AkrosUserService {
     }
 
     public HttpResponseDto authenticate(LoginRequestDto loginRequestDto) {
-        log.info("Starting authenticate()");
         String username = loginRequestDto.getUsername();
         var userOptional = repository.findByUsername(username);
         if(userOptional.isPresent()) {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, loginRequestDto.getPassword()));
             var jwtToken = jwtService.generateToken(userOptional.get());
             log.info(OK.getReasonPhrase());
-            log.info("Started authenticate()");
 
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
@@ -84,7 +80,6 @@ public class AkrosUserService {
 
         log.error("User not found by username: {}", username);
         log.error(FORBIDDEN.toString());
-        log.info("Started authenticate()");
         return HttpResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(FORBIDDEN)
@@ -96,7 +91,6 @@ public class AkrosUserService {
     }
 
     public HttpResponseDto active(String username) {
-        log.info("Starting active(String username)");
         var akrosUserOptional = repository.findByUsername(username);
         if(akrosUserOptional.isPresent()) {
             AkrosUser akrosUser = akrosUserOptional.get();
@@ -105,7 +99,6 @@ public class AkrosUserService {
             repository.save(akrosUser);
             var jwtToken = jwtService.generateToken(akrosUser);
             log.info(OK.getReasonPhrase());
-            log.info("Started active(String username)");
 
             return HttpResponseDto.builder()
                     .timestamp(Instant.now().toString())
@@ -120,7 +113,6 @@ public class AkrosUserService {
 
         log.error("User not found by username: {}", username);
         log.info(NOT_FOUND.getReasonPhrase());
-        log.info("Started active(String username)");
         return HttpResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(NOT_FOUND)
@@ -131,6 +123,8 @@ public class AkrosUserService {
     }
 
     public void deleteAllUsers() {
+        log.info("Starting deleteAllUsers()");
         repository.deleteAll();
+        log.info("Started deleteAllUsers()");
     }
 }

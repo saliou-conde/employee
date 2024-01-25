@@ -9,7 +9,6 @@ public class AppConstant {
             "/actuator/**",
             "/api/v1/auth/register",
             "/api/v1/auth/authenticate",
-            "/api/v1/auth/active/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <include resource="logback-${spring.profiles.active}.xml"/>
     <property name="logging.error.file.name" value="error-log" />
     <property name="logging.error.file.path" value="./logs/"/>
     <property name="logging.file.name" value="info-log" />
@@ -75,7 +76,7 @@
         </layout>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="ERROR_FILE"/>
         <appender-ref ref="INFO_FILE"/>
         <appender-ref ref="CONSOLE"/>
