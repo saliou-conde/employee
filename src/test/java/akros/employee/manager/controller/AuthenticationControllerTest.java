@@ -14,6 +14,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.PostgreSQLContainer;
@@ -21,9 +22,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
 import static org.springframework.http.HttpStatus.*;
-import static  org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace.NONE;
 
 @Testcontainers
 @SpringBootTest(webEnvironment = RANDOM_PORT)
@@ -48,6 +49,8 @@ class AuthenticationControllerTest {
         akrosUserService.deleteAllUsers();
     }
 
+    private String token;
+
     @BeforeEach
     void setUp() {
         LoginRequestDto loginRequestDto = new LoginRequestDto();
@@ -63,10 +66,14 @@ class AuthenticationControllerTest {
                 HttpResponseDto.class);
 
         assertThat(response.getBody()).isNotNull();
+        token = response.getBody().getToken();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
         ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
                 "/api/v1/auth/active/saliou",
                 HttpMethod.POST,
-                null,
+                new HttpEntity<>(headers),
                 HttpResponseDto.class);
         assertThat(active).isNotNull();
 
@@ -114,12 +121,14 @@ class AuthenticationControllerTest {
     void should_not_active_by_non_existing_user() {
         //Given
         String username = "non-existing";
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
 
         //When
         ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
                 "/api/v1/auth/active/"+username,
                 HttpMethod.POST,
-                null,
+                new HttpEntity<>(headers),
                 HttpResponseDto.class);
 
         //Then

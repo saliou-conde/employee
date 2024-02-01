@@ -102,7 +102,7 @@ class EmployeeControllerTest {
         requestDto.setPassword("19A12iou#");
         requestDto.setJobCode(randomUUID().toString());
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token);;
+        headers.set("Authorization", "Bearer " + token);
 
         //When
         var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);

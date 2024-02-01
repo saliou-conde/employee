@@ -81,6 +81,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         dto.setEmployeeId(UUID.randomUUID().toString());
         var employeeToSave = EMPLOYEE_MAPPER.mapToEmployee(dto);
         employeeToSave.setPassword(passwordEncoder.encode(dto.getPassword()));
+        employeeToSave.setJobCode(dto.getJobCode().toLowerCase());
         repository.save(employeeToSave);
         log.info("Started saveEmployee");
 
