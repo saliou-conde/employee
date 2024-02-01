@@ -19,7 +19,7 @@ class EmployeeMapperTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
 
         //When
         var employee = INSTANCE.mapToEmployee(requestDto);
@@ -32,7 +32,7 @@ class EmployeeMapperTest {
         assertThat(employee.getId()).isEqualTo(requestDto.getEmployeeId());
         assertThat(employee.getFirstname()).isEqualTo(requestDto.getFirstname());
         assertThat(employee.getLastname()).isEqualTo(requestDto.getLastname());
-        assertThat(employee.getJobCode()).isEqualTo(requestDto.getJobCode());
+        assertThat(employee.getUsername()).isEqualTo(requestDto.getUsername());
 
     }
 
@@ -57,6 +57,6 @@ class EmployeeMapperTest {
         assertThat(employee.getId()).isEqualTo(httpRequestDto.getEmployeeId());
         assertThat(employee.getFirstname()).isEqualTo(httpRequestDto.getFirstname());
         assertThat(employee.getLastname()).isEqualTo(httpRequestDto.getLastname());
-        assertThat(employee.getJobCode()).isEqualTo(httpRequestDto.getJobCode());
+        assertThat(employee.getUsername()).isEqualTo(httpRequestDto.getUsername());
     }
 }

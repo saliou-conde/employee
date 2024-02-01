@@ -100,7 +100,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -173,7 +173,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         service.saveEmployee(requestDto);
 
         requestDto.setEmployeeId(randomUUID().toString());
@@ -181,7 +181,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Aliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         service.saveEmployee(requestDto);
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
@@ -206,7 +206,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
         var appConstantPath = AppConstant.EMPLOYEE_API_PATH;
@@ -237,7 +237,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -264,7 +264,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -291,7 +291,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setJobCode(randomUUID().toString());
+        requestDto.setUsername(randomUUID().toString());
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 

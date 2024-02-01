@@ -20,6 +20,14 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
     }
 
     /**
+     * 
+     * @return check if the username is not null or empty
+     */
+    static EmployeeValidator isEmployeeUsernameValid() {
+        return employee -> employee.getUsername() != null && employee.getUsername().isEmpty() ? VALID : USER_NOT_VALID;
+    }
+
+    /**
      *
      * @param password the password of the employee
      * @return check if the employees password exists (please later check the following password > 7 && password.matches(".*[regex])
@@ -34,6 +42,11 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
                 VALID : EMPLOYEE_EMAIL_ALREADY_IN_USE;
     }
 
+    /**
+     *
+     * @param other combine validation check
+     * @return the combined validation(s)
+     */
     default EmployeeValidator and(EmployeeValidator other) {
         return employee -> {
             var result = this.apply(employee);

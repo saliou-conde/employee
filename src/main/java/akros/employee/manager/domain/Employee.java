@@ -21,7 +21,7 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false, unique = true)
-    private String jobCode;
+    private String username;
     @Column(nullable = false)
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

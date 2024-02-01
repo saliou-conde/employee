@@ -21,6 +21,7 @@ import static akros.employee.manager.constant.AppConstant.EMPLOYEE_API_PATH;
 import static akros.employee.manager.constant.AppConstant.EMPLOYEE;
 import static akros.employee.manager.domain.mapper.EmployeeMapper.INSTANCE;
 import static akros.employee.manager.domain.plaisibility.EmployeeValidation.VALID;
+import static akros.employee.manager.domain.plaisibility.EmployeeValidator.isEmployeeUsernameValid;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
@@ -61,6 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         var employee = EMPLOYEE_MAPPER.mapToEmployee(dto);
         validation = EmployeeValidator
                 .isEmployeeEmailValid()
+                .and(isEmployeeUsernameValid())
                 .and(EmployeeValidator.isEmployeePasswordValid(employee.getPassword()))
                 .apply(employee);
         if(validation != VALID) {
@@ -81,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         dto.setEmployeeId(UUID.randomUUID().toString());
         var employeeToSave = EMPLOYEE_MAPPER.mapToEmployee(dto);
         employeeToSave.setPassword(passwordEncoder.encode(dto.getPassword()));
-        employeeToSave.setJobCode(dto.getJobCode().toLowerCase());
+        employeeToSave.setUsername(dto.getUsername().toLowerCase());
         repository.save(employeeToSave);
         log.info("Started saveEmployee");
 

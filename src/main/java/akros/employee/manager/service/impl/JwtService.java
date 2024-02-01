@@ -18,6 +18,7 @@ import static io.jsonwebtoken.SignatureAlgorithm.HS256;
 
 @Service
 public class JwtService {
+    public static final int EXPIRATION_TIME = 86_400_000;
     @Value("${secret.key}")
     private String secretKey;
 
@@ -38,7 +39,7 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(extractClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
+                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(getSignInKey(), HS256)
                 .compact();
     }

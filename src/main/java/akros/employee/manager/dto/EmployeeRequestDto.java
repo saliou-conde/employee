@@ -15,7 +15,7 @@ public class EmployeeRequestDto {
     private String firstname;
     private String lastname;
     private String email;
-    private String jobCode;
+    private String username;
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 }
