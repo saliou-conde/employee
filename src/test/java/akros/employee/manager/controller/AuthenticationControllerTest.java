@@ -1,7 +1,7 @@
 package akros.employee.manager.controller;
 
 import akros.employee.manager.config.SecurityConfig;
-import akros.employee.manager.dto.HttpResponseDto;
+import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.service.impl.AkrosUserService;
 import org.junit.jupiter.api.AfterEach;
@@ -63,18 +63,18 @@ class AuthenticationControllerTest {
                 "/api/v1/auth/register",
                 HttpMethod.POST,
                 new HttpEntity<>(loginRequestDto),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
 
         assertThat(response.getBody()).isNotNull();
         token = response.getBody().getToken();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
-        ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
+        ResponseEntity<EmployeeResponseDto> active = restTemplate.exchange(
                 "/api/v1/auth/active/saliou",
                 HttpMethod.POST,
                 new HttpEntity<>(headers),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
         assertThat(active).isNotNull();
 
     }
@@ -91,7 +91,7 @@ class AuthenticationControllerTest {
                 "/api/v1/auth/authenticate",
                 HttpMethod.POST,
                 new HttpEntity<>(loginRequestDto),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
 
         //Then
         assertThat(response.getBody()).isNotNull();
@@ -110,7 +110,7 @@ class AuthenticationControllerTest {
                 "/api/v1/auth/authenticate",
                 HttpMethod.POST,
                 new HttpEntity<>(loginRequestDto),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
 
         //Then
         assertThat(response.getBody()).isNotNull();
@@ -125,11 +125,11 @@ class AuthenticationControllerTest {
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        ResponseEntity<HttpResponseDto> active = restTemplate.exchange(
+        ResponseEntity<EmployeeResponseDto> active = restTemplate.exchange(
                 "/api/v1/auth/active/"+username,
                 HttpMethod.POST,
                 new HttpEntity<>(headers),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
 
         //Then
         assertThat(active.getBody()).isNotNull();

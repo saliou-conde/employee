@@ -10,7 +10,7 @@ import java.util.Map;
 @Getter
 @Setter
 @Builder
-public class HttpResponseDto {
+public class EmployeeResponseDto {
     private String message;
     private String error;
     private String path;

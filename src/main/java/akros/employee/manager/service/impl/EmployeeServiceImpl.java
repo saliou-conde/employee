@@ -2,13 +2,14 @@ package akros.employee.manager.service.impl;
 
 import akros.employee.manager.domain.Employee;
 import akros.employee.manager.dto.EmployeeRequestDto;
-import akros.employee.manager.dto.HttpResponseDto;
+import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.domain.mapper.EmployeeMapper;
 import akros.employee.manager.domain.plaisibility.EmployeeValidator;
 import akros.employee.manager.repository.EmployeeRepository;
 import akros.employee.manager.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final PasswordEncoder passwordEncoder;
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
 
-    public HttpResponseDto saveEmployee(EmployeeRequestDto dto) {
+    public EmployeeResponseDto saveEmployee(EmployeeRequestDto dto) {
         log.info("Starting saveEmployee");
         var findEmployee = findEmployee(dto.getEmail());
         var validation = EmployeeValidator
@@ -48,15 +49,8 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.error("Employee email already in user: {}", email);
             log.info("Started saveEmployee");
 
-            return HttpResponseDto.builder()
-                    .timestamp(Instant.now().toString())
-                    .status(NOT_ACCEPTABLE)
-                    .statusCode(NOT_ACCEPTABLE.value())
-                    .error(NOT_ACCEPTABLE.toString())
-                    .data(Map.of(EMPLOYEE, new EmployeeRequestDto()))
-                    .message(validation.getDescription())
-                    .path(EMPLOYEE_API_PATH)
-                    .build();
+            return employeeResponseDto(dto, NOT_ACCEPTABLE,
+                    validation.getDescription(), NOT_ACCEPTABLE.toString(), EMPLOYEE_API_PATH);
         }
 
         var employee = EMPLOYEE_MAPPER.mapToEmployee(dto);
@@ -68,15 +62,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(validation != VALID) {
             log.error(validation.getDescription());
             log.info("Started saveEmployee");
-            return HttpResponseDto.builder()
-                    .timestamp(Instant.now().toString())
-                    .status(BAD_REQUEST)
-                    .statusCode(BAD_REQUEST.value())
-                    .error(BAD_REQUEST.toString())
-                    .message(validation.getDescription())
-                    .data(Map.of(BAD_REQUEST, dto))
-                    .path(EMPLOYEE_API_PATH)
-                    .build();
+            return employeeResponseDto(dto, BAD_REQUEST,
+                    validation.getDescription(), BAD_REQUEST.toString(), EMPLOYEE_API_PATH);
 
         }
 
@@ -87,17 +74,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         repository.save(employeeToSave);
         log.info("Started saveEmployee");
 
-        return HttpResponseDto.builder()
-                .timestamp(Instant.now().toString())
-                .status(CREATED)
-                .statusCode(CREATED.value())
-                .message("Employee Successfully Added")
-                .data(Map.of(EMPLOYEE, dto))
-                .path(EMPLOYEE_API_PATH)
-                .build();
+        return employeeResponseDto(dto, CREATED,
+                "Employee Successfully Added", null, EMPLOYEE_API_PATH);
     }
 
-    public HttpResponseDto findEmployeeByEmail(String email) {
+    public EmployeeResponseDto findEmployeeByEmail(String email) {
         log.info("Starting findEmployeeByEmail");
         var path = EMPLOYEE_API_PATH +email;
         var employeeRequestDto = EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findEmployee(email));
@@ -105,27 +86,14 @@ public class EmployeeServiceImpl implements EmployeeService {
         if(validation != VALID) {
             log.error(validation.getDescription());
             log.info("Started findEmployeeByEmail");
-            return HttpResponseDto.builder()
-                    .timestamp(Instant.now().toString())
-                    .message("Employee not found by email: "+email)
-                    .path(path)
-                    .status(NOT_FOUND)
-                    .statusCode(NOT_FOUND.value())
-                    .error("Not found")
-                    .build();
+            return employeeResponseDto(new EmployeeRequestDto(), NOT_FOUND,
+                    "Employee not found by email: "+email, NOT_FOUND.toString(), path);
 
         }
 
         log.info("Started findEmployeeByEmail");
-        return HttpResponseDto.builder()
-                .timestamp(Instant.now().toString())
-                .message("Employee found by email: "+email)
-                .path(path)
-                .status(OK)
-                .statusCode(OK.value())
-                .data(Map.of(EMPLOYEE, employeeRequestDto))
-                .data(Map.of("Employee Deleted", employeeRequestDto))
-                .build();
+        return employeeResponseDto(employeeRequestDto, OK,
+                "Employee found by email: "+email, OK.toString(), path);
     }
 
     public List<EmployeeRequestDto> findAllEmployees() {
@@ -135,7 +103,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .toList();
     }
 
-    public HttpResponseDto deleteEmployeeByEmail(String email) {
+    public EmployeeResponseDto deleteEmployeeByEmail(String email) {
         log.info("Starting deleteEmployeeByEmail");
         var path = EMPLOYEE_API_PATH +email;
         var employeeOptional = findEmployee(email);
@@ -143,26 +111,12 @@ public class EmployeeServiceImpl implements EmployeeService {
             log.info("Employee found by email: {}", email);
             repository.delete(employeeOptional);
             log.info("Started deleteEmployeeByEmail");
-            return HttpResponseDto.builder()
-                    .timestamp(Instant.now().toString())
-                    .message("Employee with the email: "+email+" has been deleted.")
-                    .path(path)
-                    .status(OK)
-                    .statusCode(OK.value())
-                    .data(Map.of(EMPLOYEE, employeeOptional))
-                    .build();
+            return employeeResponseDto(EMPLOYEE_MAPPER.mapToEmployeeRequestDto(employeeOptional), OK, "Employee with the email: "+email+" has been deleted.", OK.toString(), path);
         }
 
         log.error("Employee not found by email.");
         log.info("Started deleteEmployeeByEmail");
-        return  HttpResponseDto.builder()
-                .timestamp(Instant.now().toString())
-                .error(NOT_FOUND.toString())
-                .message("Employee not found by email.")
-                .status(NOT_FOUND)
-                .statusCode(NOT_FOUND.value())
-                .path(path)
-                .build();
+        return employeeResponseDto(new EmployeeRequestDto(), NOT_FOUND, "Employee not found by email.", NOT_FOUND.toString(), path);
     }
 
     @Override
@@ -174,5 +128,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         var employeeOptional = repository.findByEmail(email);
         return employeeOptional.orElse(null);
 
+    }
+
+    private EmployeeResponseDto employeeResponseDto(EmployeeRequestDto requestDto, HttpStatus status, String description, String error, String path) {
+        return EmployeeResponseDto.builder()
+                .timestamp(Instant.now().toString())
+                .status(status)
+                .statusCode(status.value())
+                .error(error)
+                .data(Map.of(EMPLOYEE, requestDto))
+                .message(description)
+                .path(path)
+                .build();
     }
 }

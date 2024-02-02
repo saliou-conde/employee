@@ -1,7 +1,7 @@
 package akros.employee.manager.controller;
 
 import akros.employee.manager.dto.EmployeeRequestDto;
-import akros.employee.manager.dto.HttpResponseDto;
+import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.service.EmployeeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -60,7 +60,7 @@ public class EmployeeController {
             }
     )
     @GetMapping("/{email}")
-    public ResponseEntity<HttpResponseDto> findEmployeeByEmail(@PathVariable("email") String email) {
+    public ResponseEntity<EmployeeResponseDto> findEmployeeByEmail(@PathVariable("email") String email) {
         var responseDto = service.findEmployeeByEmail(email);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }
@@ -89,7 +89,7 @@ public class EmployeeController {
     )
     @PostMapping
     @PreAuthorize("hasAnyAuthority('user:create')")
-    public ResponseEntity<HttpResponseDto> addEmployee(@RequestBody EmployeeRequestDto dto) {
+    public ResponseEntity<EmployeeResponseDto> addEmployee(@RequestBody EmployeeRequestDto dto) {
         var responseDto = service.saveEmployee(dto);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }
@@ -114,7 +114,7 @@ public class EmployeeController {
     )
     @DeleteMapping("/{email}")
     @PreAuthorize("hasAnyAuthority('user:delete')")
-    public ResponseEntity<HttpResponseDto> deleteEmployee(@PathVariable("email") String email) {
+    public ResponseEntity<EmployeeResponseDto> deleteEmployee(@PathVariable("email") String email) {
         var responseDto = service.deleteEmployeeByEmail(email);
         return new ResponseEntity<>(responseDto, responseDto.getStatus());
     }

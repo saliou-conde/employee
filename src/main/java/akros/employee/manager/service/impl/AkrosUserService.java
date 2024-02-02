@@ -1,7 +1,7 @@
 package akros.employee.manager.service.impl;
 
 import akros.employee.manager.domain.AkrosUser;
-import akros.employee.manager.dto.HttpResponseDto;
+import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.domain.mapper.AkrosUserMapper;
 import akros.employee.manager.repository.AkrosUserRepository;
@@ -37,7 +37,7 @@ public class AkrosUserService {
 
     private final AuthenticationManager authenticationManager;
 
-    public HttpResponseDto register(LoginRequestDto loginRequestDto) {
+    public EmployeeResponseDto register(LoginRequestDto loginRequestDto) {
         var akrosUser = MAPPER.mapToAkrosUser(loginRequestDto);
         akrosUser.setId(UUID.randomUUID().toString());
         akrosUser.setJoinDate(new Date().toString());
@@ -47,7 +47,7 @@ public class AkrosUserService {
         var jwtToken = jwtService.generateToken(akrosUser);
 
         log.info(CREATED.getReasonPhrase());
-        return HttpResponseDto.builder()
+        return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(CREATED)
                 .statusCode(CREATED.value())
@@ -58,7 +58,7 @@ public class AkrosUserService {
                 .build();
     }
 
-    public HttpResponseDto authenticate(LoginRequestDto loginRequestDto) {
+    public EmployeeResponseDto authenticate(LoginRequestDto loginRequestDto) {
         String username = loginRequestDto.getUsername();
         var userOptional = repository.findByUsername(username);
         if(userOptional.isPresent()) {
@@ -66,7 +66,7 @@ public class AkrosUserService {
             var jwtToken = jwtService.generateToken(userOptional.get());
             log.info(OK.getReasonPhrase());
 
-            return HttpResponseDto.builder()
+            return EmployeeResponseDto.builder()
                     .timestamp(Instant.now().toString())
                     .status(OK)
                     .statusCode(OK.value())
@@ -80,7 +80,7 @@ public class AkrosUserService {
 
         log.error("User not found by username: {}", username);
         log.error(FORBIDDEN.toString());
-        return HttpResponseDto.builder()
+        return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(FORBIDDEN)
                 .statusCode(FORBIDDEN.value())
@@ -90,7 +90,7 @@ public class AkrosUserService {
                 .build();
     }
 
-    public HttpResponseDto active(String username) {
+    public EmployeeResponseDto active(String username) {
         var akrosUserOptional = repository.findByUsername(username);
         if(akrosUserOptional.isPresent()) {
             AkrosUser akrosUser = akrosUserOptional.get();
@@ -100,7 +100,7 @@ public class AkrosUserService {
             var jwtToken = jwtService.generateToken(akrosUser);
             log.info(OK.getReasonPhrase());
 
-            return HttpResponseDto.builder()
+            return EmployeeResponseDto.builder()
                     .timestamp(Instant.now().toString())
                     .status(OK)
                     .statusCode(OK.value())
@@ -113,7 +113,7 @@ public class AkrosUserService {
 
         log.error("User not found by username: {}", username);
         log.info(NOT_FOUND.getReasonPhrase());
-        return HttpResponseDto.builder()
+        return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(NOT_FOUND)
                 .statusCode(NOT_FOUND.value())

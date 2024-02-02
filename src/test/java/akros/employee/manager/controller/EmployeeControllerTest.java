@@ -3,7 +3,7 @@ package akros.employee.manager.controller;
 import akros.employee.manager.config.SecurityConfig;
 import akros.employee.manager.constant.AppConstant;
 import akros.employee.manager.dto.EmployeeRequestDto;
-import akros.employee.manager.dto.HttpResponseDto;
+import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.service.EmployeeService;
 import akros.employee.manager.service.impl.AkrosUserService;
@@ -55,6 +55,7 @@ class EmployeeControllerTest {
     private TestRestTemplate restTemplate;
     private final String PATH = "/api/v1/employees";
     private String token;
+    private String username;
     @Autowired
     private AuthenticationController authenticationController;
 
@@ -74,14 +75,14 @@ class EmployeeControllerTest {
         loginRequestDto.setEmail("saliou-conde@gmx.de");
         loginRequestDto.setFirstname("Saliou");
         loginRequestDto.setLastname("Conde");
-        HttpResponseDto register = authenticationController.register(loginRequestDto).getBody();
+        EmployeeResponseDto register = authenticationController.register(loginRequestDto).getBody();
 
         assertThat(register).isNotNull();
         assertThat(authenticationController.active(loginRequestDto.getUsername())).isNotNull();
 
         // create auth credentials
         loginRequestDto.setPassword("12346");
-        HttpResponseDto body = authenticationController.authenticate(loginRequestDto).getBody();
+        EmployeeResponseDto body = authenticationController.authenticate(loginRequestDto).getBody();
 
         assertThat(body).isNotNull();
         token =  body.getToken();
@@ -105,7 +106,7 @@ class EmployeeControllerTest {
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), HttpResponseDto.class);
+        var response = restTemplate.exchange(PATH, HttpMethod.POST, new HttpEntity<>(requestDto, headers), EmployeeResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(CREATED.value());
     }
@@ -118,7 +119,7 @@ class EmployeeControllerTest {
                 "Saliou",
                 "Condé",
                 "saliou-conde@gmx.de",
-                randomUUID().toString(),
+                "saliou",
                 "19A12iou#");
         service.saveEmployee(requestDto);
         var headers = new HttpHeaders();
@@ -129,7 +130,7 @@ class EmployeeControllerTest {
                 PATH,
                 HttpMethod.POST,
                 new HttpEntity<>(requestDto, headers),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(NOT_ACCEPTABLE.value());
         var responseDto = response.getBody();
@@ -156,7 +157,7 @@ class EmployeeControllerTest {
                 PATH,
                 HttpMethod.POST,
                 new HttpEntity<>(requestDto, headers),
-                HttpResponseDto.class);
+                EmployeeResponseDto.class);
         assertThat(response).isNotNull();
         assertThat(response.getStatusCode().value()).isEqualTo(BAD_REQUEST.value());
         var responseDto = response.getBody();
@@ -237,7 +238,7 @@ class EmployeeControllerTest {
         requestDto.setFirstname("Saliou");
         requestDto.setLastname("Condé");
         requestDto.setPassword("19A12iou#");
-        requestDto.setUsername(randomUUID().toString());
+        requestDto.setUsername("saliou");
         var headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -247,9 +248,9 @@ class EmployeeControllerTest {
         //Then
         given()
                 .contentType(JSON)
-                .headers(headers)
                 .when()
-                .get(PATH +"/saliou-conde@gmx1.de")
+                .headers(headers)
+                .get(PATH +"/saliou-conde12@gmx.de")
                 .then()
                 .statusCode(NOT_FOUND.value());
 

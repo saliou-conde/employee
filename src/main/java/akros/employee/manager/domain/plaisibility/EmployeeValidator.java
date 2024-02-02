@@ -24,7 +24,7 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
      * @return check if the username is not null or empty
      */
     static EmployeeValidator isEmployeeUsernameValid() {
-        return employee -> employee.getUsername() != null && employee.getUsername().isEmpty() ? VALID : USER_NOT_VALID;
+        return employee -> employee.getUsername() != null ? VALID : USER_NOT_VALID;
     }
 
     /**
