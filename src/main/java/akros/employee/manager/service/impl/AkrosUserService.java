@@ -5,6 +5,7 @@ import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.domain.mapper.AkrosUserMapper;
 import akros.employee.manager.repository.AkrosUserRepository;
+import akros.employee.manager.utility.ServiceUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,12 +31,10 @@ public class AkrosUserService {
 
     private final AkrosUserRepository repository;
     private static final AkrosUserMapper MAPPER = INSTANCE;
-
     private final PasswordEncoder passwordEncoder;
-
     private final JwtService jwtService;
-
     private final AuthenticationManager authenticationManager;
+    private static final ServiceUtility SERVICE_UTILITY = ServiceUtility.getUtility();
 
     public EmployeeResponseDto register(LoginRequestDto loginRequestDto) {
         var akrosUser = MAPPER.mapToAkrosUser(loginRequestDto);
@@ -47,15 +46,8 @@ public class AkrosUserService {
         var jwtToken = jwtService.generateToken(akrosUser);
 
         log.info(CREATED.getReasonPhrase());
-        return EmployeeResponseDto.builder()
-                .timestamp(Instant.now().toString())
-                .status(CREATED)
-                .statusCode(CREATED.value())
-                .message("User Successfully registered")
-                .data(Map.of(AKROS_USER, loginRequestDto))
-                .path(AKROS_USER_API_PATH +"register")
-                .token(jwtToken)
-                .build();
+        return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), CREATED,
+                        "User Successfully registered", null, AKROS_USER_API_PATH, jwtToken);
     }
 
     public EmployeeResponseDto authenticate(LoginRequestDto loginRequestDto) {
@@ -66,28 +58,15 @@ public class AkrosUserService {
             var jwtToken = jwtService.generateToken(userOptional.get());
             log.info(OK.getReasonPhrase());
 
-            return EmployeeResponseDto.builder()
-                    .timestamp(Instant.now().toString())
-                    .status(OK)
-                    .statusCode(OK.value())
-                    .message("User Successfully logged in")
-                    .data(Map.of(AKROS_USER, userOptional.get()))
-                    .path(AKROS_USER_API_PATH +"authenticate")
-                    .token(jwtToken)
-                    .build();
-
+            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(userOptional.get()), OK,
+                    "User Successfully logged in", null, AKROS_USER_API_PATH +"authenticate", jwtToken);
         }
 
         log.error("User not found by username: {}", username);
         log.error(FORBIDDEN.toString());
-        return EmployeeResponseDto.builder()
-                .timestamp(Instant.now().toString())
-                .status(FORBIDDEN)
-                .statusCode(FORBIDDEN.value())
-                .message(FORBIDDEN.toString())
-                .data(Map.of(AKROS_USER, loginRequestDto))
-                .path(AKROS_USER_API_PATH)
-                .build();
+        return SERVICE_UTILITY.employeeResponseDto(new LoginRequestDto(), FORBIDDEN,
+                        FORBIDDEN.toString(), "User not found by username: "+username,
+                AKROS_USER_API_PATH +"authenticate", null);
     }
 
     public EmployeeResponseDto active(String username) {
@@ -100,27 +79,16 @@ public class AkrosUserService {
             var jwtToken = jwtService.generateToken(akrosUser);
             log.info(OK.getReasonPhrase());
 
-            return EmployeeResponseDto.builder()
-                    .timestamp(Instant.now().toString())
-                    .status(OK)
-                    .statusCode(OK.value())
-                    .message("User found by username")
-                    .data(Map.of(AKROS_USER, MAPPER.mapToLoginRequestDto(akrosUser)))
-                    .path(AKROS_USER_API_PATH +"active/"+username)
-                    .token(jwtToken)
-                    .build();
+            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), OK,
+                            "User found by username", null,
+                            AKROS_USER_API_PATH +"active/"+username, jwtToken);
         }
 
         log.error("User not found by username: {}", username);
         log.info(NOT_FOUND.getReasonPhrase());
-        return EmployeeResponseDto.builder()
-                .timestamp(Instant.now().toString())
-                .status(NOT_FOUND)
-                .statusCode(NOT_FOUND.value())
-                .message("User not found by username: "+username)
-                .path(AKROS_USER_API_PATH +"active/"+username)
-                .build();
-    }
+        return SERVICE_UTILITY.employeeResponseDto(new LoginRequestDto(), NOT_FOUND,
+                        "User not found by username: "+username, null,
+                        AKROS_USER_API_PATH +"active/"+username, null);    }
 
     public void deleteAllUsers() {
         log.info("Starting deleteAllUsers()");

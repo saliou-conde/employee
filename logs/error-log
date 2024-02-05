@@ -5839,3 +5839,29 @@ java.lang.NullPointerException: null
 2024-02-02 12:51:24.865 [http-nio-auto-2-exec-7] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
 2024-02-02 12:55:06.793 [http-nio-8080-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
 2024-02-02 12:55:14.355 [http-nio-8080-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-05 08:23:51.735 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:23:51.953 [http-nio-auto-1-exec-3] ERROR a.e.m.service.impl.AkrosUserService - User not found by username: non-existing
+2024-02-05 08:23:51.953 [http-nio-auto-1-exec-3] ERROR a.e.m.service.impl.AkrosUserService - 403 FORBIDDEN
+2024-02-05 08:23:51.954 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:23:52.057 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:23:52.096 [http-nio-auto-1-exec-6] ERROR a.e.m.service.impl.AkrosUserService - User not found by username: non-existing
+2024-02-05 08:23:52.181 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:23:52.325 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:23:55.747 [http-nio-auto-2-exec-1] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-05 08:23:55.991 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-05 08:23:56.011 [http-nio-auto-2-exec-2] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-05 08:23:56.476 [http-nio-auto-2-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-05 08:23:57.413 [http-nio-auto-2-exec-9] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-05 08:58:08.345 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:58:08.577 [http-nio-auto-1-exec-2] ERROR a.e.m.service.impl.AkrosUserService - User not found by username: non-existing
+2024-02-05 08:58:08.578 [http-nio-auto-1-exec-2] ERROR a.e.m.service.impl.AkrosUserService - 403 FORBIDDEN
+2024-02-05 08:58:08.579 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:58:08.680 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:58:08.775 [http-nio-auto-1-exec-6] ERROR a.e.m.service.impl.AkrosUserService - User not found by username: non-existing
+2024-02-05 08:58:08.881 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:58:09.041 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-05 08:58:12.217 [http-nio-auto-2-exec-1] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-05 08:58:12.429 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-05 08:58:12.452 [http-nio-auto-2-exec-2] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-05 08:58:12.860 [http-nio-auto-2-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-05 08:58:13.605 [http-nio-auto-2-exec-7] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
