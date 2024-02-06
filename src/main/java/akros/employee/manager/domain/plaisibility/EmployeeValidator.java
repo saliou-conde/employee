@@ -29,12 +29,10 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
 
     /**
      *
-     * @param password the password of the employee
      * @return check if the employees password exists (please later check the following password > 7 && password.matches(".*[regex])
      */
-    static EmployeeValidator isEmployeePasswordValid(String password) {
-        return employee -> employee.getPassword() != null &&
-                employee.getPassword().equals(password)  ? VALID : PASSWORD_NOT_VALID;
+    static EmployeeValidator isEmployeePasswordValid() {
+        return employee -> employee.getPassword() != null ? VALID : PASSWORD_NOT_VALID;
     }
 
     static EmployeeValidator employeeEmailAlreadyInUser(String email) {

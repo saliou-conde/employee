@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface EmployeeService {
     EmployeeResponseDto saveEmployee(EmployeeRequestDto dto);
+    EmployeeResponseDto updateEmployee(EmployeeRequestDto dto, String email);
     EmployeeResponseDto findEmployeeByEmail(String email);
     List<EmployeeRequestDto> findAllEmployees() ;
     EmployeeResponseDto deleteEmployeeByEmail(String email);

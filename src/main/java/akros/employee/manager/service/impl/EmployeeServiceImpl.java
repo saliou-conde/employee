@@ -55,7 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         validation = EmployeeValidator
                 .isEmployeeEmailValid()
                 .and(isEmployeeUsernameValid())
-                .and(EmployeeValidator.isEmployeePasswordValid(employee.getPassword()))
+                .and(EmployeeValidator.isEmployeePasswordValid())
                 .apply(employee);
         if(validation != VALID) {
             log.error(validation.getDescription());
@@ -74,6 +74,23 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return SERVICE_UTILITY.employeeResponseDto(dto, CREATED,
                 "Employee Successfully Added", null, EMPLOYEE_API_PATH);
+    }
+
+    @Override
+    public EmployeeResponseDto updateEmployee(EmployeeRequestDto dto, String email) {
+        var findEmployee = findEmployee(email);
+        if(findEmployee != null) {
+            findEmployee.setUsername(dto.getUsername() != null? dto.getUsername() : findEmployee.getUsername());
+            findEmployee.setEmail(dto.getEmail() != null? dto.getEmail() : findEmployee.getEmail());
+            findEmployee.setPassword(dto.getPassword() != null? dto.getPassword() : findEmployee.getPassword());
+            findEmployee.setFirstname(dto.getFirstname() != null? dto.getFirstname() : findEmployee.getFirstname());
+            findEmployee.setLastname(dto.getLastname() != null? dto.getLastname() : findEmployee.getLastname());
+            repository.save(findEmployee);
+            return SERVICE_UTILITY.employeeResponseDto(dto, OK,
+                    "Employee Successfully Updated", null, EMPLOYEE_API_PATH);
+        }
+        return SERVICE_UTILITY.employeeResponseDto(dto, NOT_FOUND,
+                "Employee Not Found by Email: "+email, NOT_FOUND.toString(), EMPLOYEE_API_PATH);
     }
 
     public EmployeeResponseDto findEmployeeByEmail(String email) {
