@@ -13,13 +13,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.Date;
-import java.util.Map;
 import java.util.UUID;
 
 import static akros.employee.manager.constant.AppConstant.AKROS_USER_API_PATH;
-import static akros.employee.manager.constant.AppConstant.AKROS_USER;
 import static akros.employee.manager.domain.enumeration.Role.ROLE_USER;
 import static akros.employee.manager.domain.mapper.AkrosUserMapper.INSTANCE;
 import static org.springframework.http.HttpStatus.*;
@@ -34,7 +31,7 @@ public class AkrosUserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private static final ServiceUtility SERVICE_UTILITY = ServiceUtility.getUtility();
+    private static final ServiceUtility SERVICE_UTILITY = ServiceUtility.getInstance();
 
     public EmployeeResponseDto register(LoginRequestDto loginRequestDto) {
         var akrosUser = MAPPER.mapToAkrosUser(loginRequestDto);

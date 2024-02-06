@@ -13,17 +13,16 @@ import static akros.employee.manager.constant.AppConstant.EMPLOYEE;
 
 public final class ServiceUtility {
 
+    private static ServiceUtility instance;
     private ServiceUtility() {
-
     }
-    private static ServiceUtility utility;
 
-    public static ServiceUtility getUtility() {
-        if(utility == null) {
-            utility = new ServiceUtility();
-            return utility;
+    public static synchronized ServiceUtility getInstance() {
+        if(instance == null) {
+            instance = new ServiceUtility();
+            return instance;
         }
-        return utility;
+        return instance;
     }
 
     public EmployeeResponseDto employeeResponseDto(EmployeeRequestDto requestDto, HttpStatus status, String description, String error, String path) {

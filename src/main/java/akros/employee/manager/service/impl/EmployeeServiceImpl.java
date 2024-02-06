@@ -10,17 +10,13 @@ import akros.employee.manager.service.EmployeeService;
 import akros.employee.manager.utility.ServiceUtility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static akros.employee.manager.constant.AppConstant.EMPLOYEE_API_PATH;
-import static akros.employee.manager.constant.AppConstant.EMPLOYEE;
 import static akros.employee.manager.domain.mapper.EmployeeMapper.INSTANCE;
 import static akros.employee.manager.domain.plaisibility.EmployeeValidation.VALID;
 import static akros.employee.manager.domain.plaisibility.EmployeeValidator.isEmployeeUsernameValid;
@@ -35,7 +31,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final PasswordEncoder passwordEncoder;
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
-    private static final ServiceUtility SERVICE_UTILITY = ServiceUtility.getUtility();
+    private static final ServiceUtility SERVICE_UTILITY = ServiceUtility.getInstance();
 
     public EmployeeResponseDto saveEmployee(EmployeeRequestDto dto) {
         log.info("Starting saveEmployee");
