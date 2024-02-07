@@ -7037,3 +7037,190 @@ Caused by: java.net.ConnectException: Connection refused: no further information
 2024-02-07 11:31:02.244 [http-nio-auto-2-exec-2] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
 2024-02-07 11:31:02.749 [http-nio-auto-2-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
 2024-02-07 11:31:04.078 [http-nio-auto-2-exec-2] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-07 11:46:41.149 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:47:38.138 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:24.999 [http-nio-auto-1-exec-3] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-07 11:48:25.172 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:27.333 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 11:48:27.356 [http-nio-auto-1-exec-6] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 11:48:27.447 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:27.709 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:27.862 [http-nio-auto-1-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-07 11:48:27.949 [http-nio-auto-1-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:28.350 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:28.609 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:28.828 [http-nio-auto-1-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:29.001 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:48:29.164 [http-nio-auto-1-exec-2] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-07 11:48:29.267 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:51:55.636 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:51:55.657 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:53:57.629 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:53:57.771 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:03.538 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:03.677 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:03.853 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.232 [http-nio-auto-1-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-07 11:56:39.395 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.423 [http-nio-auto-1-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.509 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.523 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 11:56:39.548 [http-nio-auto-1-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 11:56:39.640 [http-nio-auto-1-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.670 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.742 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.916 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.930 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:39.992 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.073 [http-nio-auto-1-exec-6] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-07 11:56:40.155 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.179 [http-nio-auto-1-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.241 [http-nio-auto-1-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.573 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.600 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.661 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.819 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.834 [http-nio-auto-1-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:40.894 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.059 [http-nio-auto-1-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.082 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.142 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.238 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.254 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.322 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.409 [http-nio-auto-1-exec-6] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-07 11:56:41.491 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.503 [http-nio-auto-1-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:56:41.562 [http-nio-auto-1-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:03.865 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:04.079 [http-nio-auto-1-exec-3] ERROR a.e.m.s.impl.AkrosUserServiceImpl - User not found by username: non-existing
+2024-02-07 11:58:04.079 [http-nio-auto-1-exec-3] ERROR a.e.m.s.impl.AkrosUserServiceImpl - 403 FORBIDDEN
+2024-02-07 11:58:04.080 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:04.182 [http-nio-auto-1-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:04.244 [http-nio-auto-1-exec-7] ERROR a.e.m.s.impl.AkrosUserServiceImpl - User not found by username: non-existing
+2024-02-07 11:58:04.327 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:04.490 [http-nio-auto-1-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:06.776 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:06.803 [http-nio-auto-2-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:06.927 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:07.792 [http-nio-auto-2-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-07 11:58:07.937 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:07.973 [http-nio-auto-2-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.081 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.089 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 11:58:08.106 [http-nio-auto-2-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 11:58:08.180 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.197 [http-nio-auto-2-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.266 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.439 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.473 [http-nio-auto-2-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.567 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.650 [http-nio-auto-2-exec-6] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-07 11:58:08.740 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.762 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:08.827 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.187 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.214 [http-nio-auto-2-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.310 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.527 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.546 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.611 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.804 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.826 [http-nio-auto-2-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:09.921 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:10.025 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:10.049 [http-nio-auto-2-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:10.141 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:10.224 [http-nio-auto-2-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-07 11:58:10.313 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:10.322 [http-nio-auto-2-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 11:58:10.385 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:44.521 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:44.810 [http-nio-auto-1-exec-2] ERROR a.e.m.s.impl.AkrosUserServiceImpl - User not found by username: non-existing
+2024-02-07 12:01:44.810 [http-nio-auto-1-exec-2] ERROR a.e.m.s.impl.AkrosUserServiceImpl - 403 FORBIDDEN
+2024-02-07 12:01:44.813 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:44.920 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:44.967 [http-nio-auto-1-exec-6] ERROR a.e.m.s.impl.AkrosUserServiceImpl - User not found by username: non-existing
+2024-02-07 12:01:45.052 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:45.214 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:47.425 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:47.443 [http-nio-auto-2-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:47.574 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:48.469 [http-nio-auto-2-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-07 12:01:48.602 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:48.628 [http-nio-auto-2-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:48.694 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:48.702 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 12:01:48.722 [http-nio-auto-2-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 12:01:48.806 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:48.827 [http-nio-auto-2-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:48.896 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.046 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.059 [http-nio-auto-2-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.124 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.211 [http-nio-auto-2-exec-6] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-07 12:01:49.298 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.322 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.390 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.748 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.771 [http-nio-auto-2-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.837 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:49.989 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.005 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.072 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.227 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.236 [http-nio-auto-2-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.302 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.395 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.407 [http-nio-auto-2-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.469 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.549 [http-nio-auto-2-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-07 12:01:50.628 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.640 [http-nio-auto-2-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:01:50.705 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:11.478 [http-nio-auto-1-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:11.671 [http-nio-auto-1-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:11.691 [http-nio-auto-1-exec-3] ERROR a.e.m.s.impl.AkrosUserServiceImpl - User not found by username: non-existing
+2024-02-07 12:06:11.692 [http-nio-auto-1-exec-3] ERROR a.e.m.s.impl.AkrosUserServiceImpl - 403 FORBIDDEN
+2024-02-07 12:06:11.695 [http-nio-auto-1-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:11.864 [http-nio-auto-1-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:11.880 [http-nio-auto-1-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:11.940 [http-nio-auto-1-exec-5] ERROR a.e.m.s.impl.AkrosUserServiceImpl - User not found by username: non-existing
+2024-02-07 12:06:12.026 [http-nio-auto-1-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:12.051 [http-nio-auto-1-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:12.168 [http-nio-auto-1-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:14.473 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:14.496 [http-nio-auto-2-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:14.623 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:15.482 [http-nio-auto-2-exec-4] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email
+2024-02-07 12:06:15.614 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:15.641 [http-nio-auto-2-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:15.726 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:15.735 [Test worker] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 12:06:15.753 [http-nio-auto-2-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee Password not correct
+2024-02-07 12:06:15.836 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:15.869 [http-nio-auto-2-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:15.976 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.170 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.196 [http-nio-auto-2-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.275 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.364 [http-nio-auto-2-exec-6] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee not found by email.
+2024-02-07 12:06:16.443 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.455 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.518 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.847 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.862 [http-nio-auto-2-exec-4] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:16.926 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.098 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.108 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.180 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.349 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.373 [http-nio-auto-2-exec-2] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.450 [http-nio-auto-2-exec-3] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.546 [http-nio-auto-2-exec-5] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.571 [http-nio-auto-2-exec-6] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.666 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.764 [http-nio-auto-2-exec-8] ERROR a.e.m.s.impl.EmployeeServiceImpl - Employee email already in user: saliou-conde@gmx.de
+2024-02-07 12:06:17.838 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.858 [http-nio-auto-2-exec-10] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
+2024-02-07 12:06:17.933 [http-nio-auto-2-exec-1] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null

@@ -43,13 +43,13 @@ class AuthenticationControllerTest {
 
     @Autowired
     private AkrosUserService akrosUserService;
+    private String token;
+    private final String AUTH_API_PATH = "/api/v1/auth";
 
     @AfterEach
     void deleteEntities() {
         akrosUserService.deleteAllUsers();
     }
-
-    private String token;
 
     @BeforeEach
     void setUp() {
@@ -60,20 +60,18 @@ class AuthenticationControllerTest {
         loginRequestDto.setFirstname("Saliou");
         loginRequestDto.setLastname("Conde");
         var response = restTemplate.exchange(
-                "/api/v1/auth/register",
+                AUTH_API_PATH+"/register",
                 HttpMethod.POST,
                 new HttpEntity<>(loginRequestDto),
                 EmployeeResponseDto.class);
 
         assertThat(response.getBody()).isNotNull();
         token = response.getBody().getToken();
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token);
 
         ResponseEntity<EmployeeResponseDto> active = restTemplate.exchange(
-                "/api/v1/auth/active/saliou",
+                AUTH_API_PATH+"/active/saliou",
                 HttpMethod.POST,
-                new HttpEntity<>(headers),
+                null,
                 EmployeeResponseDto.class);
         assertThat(active).isNotNull();
 
@@ -88,7 +86,7 @@ class AuthenticationControllerTest {
 
         //When
         var response = restTemplate.exchange(
-                "/api/v1/auth/authenticate",
+                AUTH_API_PATH+"/authenticate",
                 HttpMethod.POST,
                 new HttpEntity<>(loginRequestDto),
                 EmployeeResponseDto.class);
@@ -107,7 +105,7 @@ class AuthenticationControllerTest {
 
         //When
         var response = restTemplate.exchange(
-                "/api/v1/auth/authenticate",
+                AUTH_API_PATH+"/authenticate",
                 HttpMethod.POST,
                 new HttpEntity<>(loginRequestDto),
                 EmployeeResponseDto.class);
@@ -126,7 +124,7 @@ class AuthenticationControllerTest {
 
         //When
         ResponseEntity<EmployeeResponseDto> active = restTemplate.exchange(
-                "/api/v1/auth/active/"+username,
+                AUTH_API_PATH+"/active/"+username,
                 HttpMethod.POST,
                 new HttpEntity<>(headers),
                 EmployeeResponseDto.class);
