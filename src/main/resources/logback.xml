@@ -75,7 +75,7 @@
         </layout>
     </appender>
 
-    <root level="DEBUG">
+    <root level="INFO">
         <appender-ref ref="ERROR_FILE"/>
         <appender-ref ref="INFO_FILE"/>
         <appender-ref ref="CONSOLE"/>
