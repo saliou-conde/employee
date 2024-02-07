@@ -3,7 +3,7 @@ package akros.employee.manager.controller;
 import akros.employee.manager.config.SecurityConfig;
 import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
-import akros.employee.manager.service.impl.AkrosUserService;
+import akros.employee.manager.service.AkrosUserService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

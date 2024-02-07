@@ -95,6 +95,35 @@ public class EmployeeController {
     }
 
     @Operation(
+            description = "Add employee",
+            summary = "A new employee will be added into the database",
+            responses = {
+                    @ApiResponse(
+                            description = "OK",
+                            responseCode = "200"
+                    ),
+                    @ApiResponse(
+                            description = "Unauthorized / Invalid Token",
+                            responseCode = "403"
+                    ),
+                    @ApiResponse(
+                            description = "Not Acceptable",
+                            responseCode = "406"
+                    ),
+                    @ApiResponse(
+                            description = "Bad Request",
+                            responseCode = "400"
+                    )
+            }
+    )
+    @PutMapping("/{email}")
+    @PreAuthorize("hasAnyAuthority('user:update')")
+    public ResponseEntity<EmployeeResponseDto> updateEmployee(@PathVariable("email") String email, @RequestBody EmployeeRequestDto dto) {
+        var responseDto = service.updateEmployee(dto, email);
+        return new ResponseEntity<>(responseDto, responseDto.getStatus());
+    }
+
+    @Operation(
             description = "Delete employee by email",
             summary = "The found employee will be deleted from the database. Undo operation is not possible.",
             responses = {

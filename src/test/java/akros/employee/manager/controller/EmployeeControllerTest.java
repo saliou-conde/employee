@@ -6,7 +6,7 @@ import akros.employee.manager.dto.EmployeeRequestDto;
 import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.service.EmployeeService;
-import akros.employee.manager.service.impl.AkrosUserService;
+import akros.employee.manager.service.impl.AkrosUserServiceImpl;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,11 +60,11 @@ class EmployeeControllerTest {
     private AuthenticationController authenticationController;
 
     @Autowired
-    private AkrosUserService akrosUserService;
+    private AkrosUserServiceImpl akrosUserServiceImpl;
 
     @AfterEach
     void deleteEntities() {
-        akrosUserService.deleteAllUsers();
+        akrosUserServiceImpl.deleteAllUsers();
     }
 
     @BeforeEach
@@ -163,6 +163,60 @@ class EmployeeControllerTest {
         var responseDto = response.getBody();
         assertThat(responseDto).isNotNull();
         assertThat(responseDto.getData()).isNotNull();
+    }
+
+    @Test
+    void should_update_employee() {
+        //Given
+        var requestDto = new EmployeeRequestDto();
+        var employeeId = randomUUID().toString();
+        var email = "saliou-conde@gmx.de";
+        requestDto.setEmployeeId(employeeId);
+        requestDto.setEmail(email);
+        requestDto.setFirstname("Saliou");
+        requestDto.setLastname("Condé");
+        requestDto.setPassword("19A12iou#");
+        requestDto.setUsername(randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        //When
+        var response = service.saveEmployee(requestDto);
+        assertThat(response).isNotNull();
+
+        var findEmployee = service.findEmployeeByEmail(email);
+
+        EmployeeRequestDto dto = (EmployeeRequestDto) findEmployee.getData().get(EMPLOYEE);
+        assertThat(findEmployee).isNotNull();
+
+        var updatedEmployee =  restTemplate.exchange(PATH+"/"+email, HttpMethod.PUT, new HttpEntity<>(dto, headers), EmployeeResponseDto.class);
+        assertThat(updatedEmployee).isNotNull();
+        assertThat(updatedEmployee.getStatusCode().value()).isEqualTo(OK.value());
+
+    }
+
+    @Test
+    void should_not_update_employee() {
+        //Given
+        var requestDto = new EmployeeRequestDto();
+        var employeeId = randomUUID().toString();
+        var email = "saliou-conde12333@gmx.de";
+        requestDto.setEmployeeId(employeeId);
+        requestDto.setEmail(email);
+        requestDto.setFirstname("Saliou");
+        requestDto.setLastname("Condé");
+        requestDto.setPassword("19A12iou#");
+        requestDto.setUsername(randomUUID().toString());
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + token);
+
+        //When
+        var updatedEmployee =  restTemplate.exchange(PATH+"/"+email, HttpMethod.PUT, new HttpEntity<>(requestDto, headers), EmployeeResponseDto.class);
+
+        //Then
+        assertThat(updatedEmployee).isNotNull();
+        assertThat(updatedEmployee.getStatusCode().value()).isEqualTo(NOT_FOUND.value());
+
     }
 
     @Test

@@ -2,7 +2,8 @@ package akros.employee.manager.controller;
 
 import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
-import akros.employee.manager.service.impl.AkrosUserService;
+import akros.employee.manager.service.AkrosUserService;
+import akros.employee.manager.service.impl.AkrosUserServiceImpl;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
