@@ -136,7 +136,7 @@
 2024-02-08 09:41:39.858 [http-nio-auto-2-exec-7] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
 2024-02-08 09:41:39.873 [http-nio-auto-2-exec-8] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
 2024-02-08 09:41:39.935 [http-nio-auto-2-exec-9] ERROR a.e.m.config.JwtAuthenticationFilter - Authentication header is: null
-2024-02-16 08:58:30.056 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+2024-02-16 08:58:30.056 [restartedMain] ERROR o.s.b.d.LoggingFailureAnalysisReporter -
 
 ***************************
 APPLICATION FAILED TO START
