@@ -19,6 +19,7 @@ import java.util.UUID;
 import static akros.employee.manager.constant.AppConstant.EMPLOYEE_API_PATH;
 import static akros.employee.manager.domain.mapper.EmployeeMapper.INSTANCE;
 import static akros.employee.manager.domain.plaisibility.EmployeeValidation.VALID;
+import static akros.employee.manager.domain.plaisibility.EmployeeValidator.employeeUsernameAlreadyInUser;
 import static akros.employee.manager.domain.plaisibility.EmployeeValidator.isEmployeeUsernameValid;
 import static org.springframework.http.HttpStatus.*;
 
@@ -51,6 +52,16 @@ public class EmployeeServiceImpl implements EmployeeService {
                     validation.getDescription(), NOT_ACCEPTABLE.toString(), EMPLOYEE_API_PATH);
         }
 
+        var findByUsername = findEmployeeByUsername(dto.getUsername());
+        validation = employeeUsernameAlreadyInUser(dto.getUsername()).apply(findByUsername);
+        if(validation != VALID) {
+            log.error(validation.getDescription());
+            log.info("Started saveEmployee");
+            return SERVICE_UTILITY.employeeResponseDto(dto, NOT_ACCEPTABLE,
+                    validation.getDescription(), NOT_ACCEPTABLE.toString(), EMPLOYEE_API_PATH);
+
+        }
+
         var employee = EMPLOYEE_MAPPER.mapToEmployee(dto);
         validation = EmployeeValidator
                 .isEmployeeEmailValid()
@@ -65,8 +76,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         }
 
+
         dto.setEmployeeId(UUID.randomUUID().toString());
         var employeeToSave = EMPLOYEE_MAPPER.mapToEmployee(dto);
+
         employeeToSave.setPassword(passwordEncoder.encode(dto.getPassword()));
         employeeToSave.setUsername(dto.getUsername().toLowerCase());
         repository.save(employeeToSave);
@@ -142,6 +155,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     private Employee findEmployee(String email) {
         var employeeOptional = repository.findByEmail(email);
         return employeeOptional.orElse(null);
+
+    }
+
+    private Employee findEmployeeByUsername(String username) {
+        return repository.findByUsername(username.toLowerCase()).orElse(null);
 
     }
 }

@@ -30,7 +30,7 @@ import static org.springframework.http.HttpStatus.*;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @AutoConfigureTestDatabase(replace = NONE)
 @Import({SecurityConfig.class})
-class AuthenticationControllerTest {
+class AuthenticationControllerIT {
 
     @Container
     @ServiceConnection

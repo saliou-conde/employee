@@ -6,6 +6,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum EmployeeValidation {
+
     VALID("Employee Valid"),
     EMPLOYEE_NOT_EXISTS("Employee not found"),
     EMPLOYEE_NOT_FOUND_BY_ID("Employee not found by ID"),
@@ -14,6 +15,7 @@ public enum EmployeeValidation {
     USER_NOT_VALID("Employee Username not Valid"),
     EMPLOYEE_NOT_ACTIVE("Employee not active"),
     PASSWORD_NOT_VALID("Employee Password not correct"),
-    EMPLOYEE_EMAIL_ALREADY_IN_USE("Employee Email already in use");
+    EMPLOYEE_EMAIL_ALREADY_IN_USE("Employee Email already in use"),
+    EMPLOYEE_USERNAME_ALREADY_IN_USE("Employee Username already in use");
     private final String description;
 }

@@ -26,6 +26,7 @@ public final class ServiceUtility {
     }
 
     public EmployeeResponseDto employeeResponseDto(EmployeeRequestDto requestDto, HttpStatus status, String description, String error, String path) {
+        requestDto.setPassword("***********");
         return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(status)
@@ -37,6 +38,7 @@ public final class ServiceUtility {
                 .build();
     }
     public EmployeeResponseDto employeeResponseDto(LoginRequestDto requestDto, HttpStatus status, String description, String error, String path, String token) {
+        requestDto.setPassword("***********");
         return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(status)

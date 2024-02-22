@@ -40,6 +40,10 @@ public interface EmployeeValidator extends Function<Employee, EmployeeValidation
                 VALID : EMPLOYEE_EMAIL_ALREADY_IN_USE;
     }
 
+    static EmployeeValidator employeeUsernameAlreadyInUser(String username) {
+        return employee -> employee != null && employee.getUsername().equalsIgnoreCase(username) ? EMPLOYEE_USERNAME_ALREADY_IN_USE : VALID;
+    }
+
     /**
      *
      * @param other combine validation check
