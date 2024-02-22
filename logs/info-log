@@ -2322,3 +2322,94 @@ Error starting ApplicationContext. To display the condition evaluation report re
 2024-02-22 09:38:32.738 [http-nio-8080-exec-8] INFO  a.e.m.s.impl.EmployeeServiceImpl - Starting findEmployeeByEmail
 2024-02-22 09:38:32.744 [http-nio-8080-exec-8] INFO  a.e.m.s.impl.EmployeeServiceImpl - Started findEmployeeByEmail
 2024-02-22 09:38:32.755 [http-nio-8080-exec-8] INFO  a.e.m.config.JwtAuthenticationFilter - Started doFilterInternal
+2024-02-22 09:51:23.204 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=4m54s955ms745µs400ns).
+2024-02-22 10:04:22.818 [HikariPool-1 housekeeper] WARN  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2m56s987ms396µs700ns).
+2024-02-22 10:15:51.892 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 2 class path changes (0 additions, 2 deletions, 0 modifications)
+2024-02-22 10:15:51.896 [Thread-5] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:15:51.904 [Thread-5] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-22 10:15:51.907 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-02-22 10:15:51.911 [Thread-5] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-02-22 10:15:52.003 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - Starting EmployeeManagerApplication using Java 21.0.1 with PID 25216 (C:\Users\condsa\Documents\workspace\kafka\employee\build\classes\java\main started by condsa in C:\Users\condsa\Documents\workspace\kafka\employee)
+2024-02-22 10:15:52.003 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - The following 1 profile is active: "dev"
+2024-02-22 10:15:52.289 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-22 10:15:52.301 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 11 ms. Found 2 JPA repository interfaces.
+2024-02-22 10:15:52.399 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-02-22 10:15:52.400 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:15:52.400 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-22 10:15:52.400 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-22 10:15:52.416 [restartedMain] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-22 10:15:52.417 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 410 ms
+2024-02-22 10:15:52.451 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-22 10:15:52.454 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-02-22 10:15:52.459 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-22 10:15:52.460 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Starting...
+2024-02-22 10:15:52.512 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@1a9c09ec
+2024-02-22 10:15:52.512 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Start completed.
+2024-02-22 10:15:52.517 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-22 10:15:52.572 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-22 10:15:52.597 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-22 10:15:52.667 [restartedMain] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'employeeController' defined in file [C:\Users\condsa\Documents\workspace\kafka\employee\build\classes\java\main\akros\employee\manager\controller\EmployeeController.class]: Unsatisfied dependency expressed through constructor parameter 0: No qualifying bean of type 'akros.employee.manager.service.EmployeeService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {}
+2024-02-22 10:15:52.667 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-22 10:15:52.668 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown initiated...
+2024-02-22 10:15:52.691 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-2 - Shutdown completed.
+2024-02-22 10:15:52.692 [restartedMain] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2024-02-22 10:15:52.696 [restartedMain] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-02-22 10:15:54.169 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - Starting EmployeeManagerApplication using Java 21.0.1 with PID 25216 (C:\Users\condsa\Documents\workspace\kafka\employee\build\classes\java\main started by condsa in C:\Users\condsa\Documents\workspace\kafka\employee)
+2024-02-22 10:15:54.169 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - The following 1 profile is active: "dev"
+2024-02-22 10:15:54.317 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-22 10:15:54.328 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 2 JPA repository interfaces.
+2024-02-22 10:15:54.402 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-02-22 10:15:54.403 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:15:54.403 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-22 10:15:54.403 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-22 10:15:54.413 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-22 10:15:54.413 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 243 ms
+2024-02-22 10:15:54.431 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-22 10:15:54.433 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-02-22 10:15:54.435 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-22 10:15:54.436 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Starting...
+2024-02-22 10:15:54.467 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-3 - Added connection org.postgresql.jdbc.PgConnection@7b6f3a15
+2024-02-22 10:15:54.468 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Start completed.
+2024-02-22 10:15:54.471 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-22 10:15:54.507 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-22 10:15:54.525 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-22 10:15:54.602 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-22 10:15:54.647 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@56bbb1ee, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@55a89495, org.springframework.security.web.context.SecurityContextHolderFilter@58d6659a, org.springframework.security.web.header.HeaderWriterFilter@2bce693f, org.springframework.web.filter.CorsFilter@1118850c, org.springframework.security.web.authentication.logout.LogoutFilter@662ca793, akros.employee.manager.config.JwtAuthenticationFilter@197ec3e6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@68133456, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@30cc3ffa, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@39f54ea5, org.springframework.security.web.session.SessionManagementFilter@3e9e5c7b, org.springframework.security.web.access.ExceptionTranslationFilter@474ef769, org.springframework.security.web.access.intercept.AuthorizationFilter@25a1ac96]
+2024-02-22 10:15:54.713 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-02-22 10:15:54.718 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:15:54.720 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-02-22 10:15:54.722 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - Started EmployeeManagerApplication in 0.575 seconds (process running for 2548.932)
+2024-02-22 10:15:54.723 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
+2024-02-22 10:31:20.527 [File Watcher] INFO  o.s.b.d.a.LocalDevToolsAutoConfiguration$RestartingClassPathChangeChangedEventListener - Restarting due to 18 class path changes (0 additions, 0 deletions, 18 modifications)
+2024-02-22 10:31:20.530 [Thread-7] INFO  o.a.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:31:20.537 [Thread-7] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-02-22 10:31:20.538 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown initiated...
+2024-02-22 10:31:20.547 [Thread-7] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-3 - Shutdown completed.
+2024-02-22 10:31:20.643 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - Starting EmployeeManagerApplication using Java 21.0.1 with PID 25216 (C:\Users\condsa\Documents\workspace\kafka\employee\build\classes\java\main started by condsa in C:\Users\condsa\Documents\workspace\kafka\employee)
+2024-02-22 10:31:20.644 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - The following 1 profile is active: "dev"
+2024-02-22 10:31:20.798 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-02-22 10:31:20.805 [restartedMain] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 2 JPA repository interfaces.
+2024-02-22 10:31:20.866 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-02-22 10:31:20.868 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:31:20.869 [restartedMain] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-02-22 10:31:20.869 [restartedMain] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2024-02-22 10:31:20.886 [restartedMain] INFO  o.a.c.c.C.[Tomcat-1].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-02-22 10:31:20.886 [restartedMain] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 241 ms
+2024-02-22 10:31:20.910 [restartedMain] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-02-22 10:31:20.913 [restartedMain] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-02-22 10:31:20.916 [restartedMain] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-02-22 10:31:20.916 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Starting...
+2024-02-22 10:31:20.946 [restartedMain] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-4 - Added connection org.postgresql.jdbc.PgConnection@4ff69e2c
+2024-02-22 10:31:20.946 [restartedMain] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-4 - Start completed.
+2024-02-22 10:31:20.949 [restartedMain] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-02-22 10:31:21.002 [restartedMain] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-02-22 10:31:21.019 [restartedMain] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-02-22 10:31:21.106 [restartedMain] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-02-22 10:31:21.146 [restartedMain] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6dcf167d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@3807661, org.springframework.security.web.context.SecurityContextHolderFilter@2c7f3144, org.springframework.security.web.header.HeaderWriterFilter@4d12c738, org.springframework.web.filter.CorsFilter@42b1ed0c, org.springframework.security.web.authentication.logout.LogoutFilter@5a8694f9, akros.employee.manager.config.JwtAuthenticationFilter@6800785f, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@6fba011f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@34ca20d7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5d9033f, org.springframework.security.web.session.SessionManagementFilter@1ff372c2, org.springframework.security.web.access.ExceptionTranslationFilter@2fdd8b67, org.springframework.security.web.access.intercept.AuthorizationFilter@56e239bc]
+2024-02-22 10:31:21.194 [restartedMain] INFO  o.s.b.d.a.OptionalLiveReloadServer - LiveReload server is running on port 35729
+2024-02-22 10:31:21.199 [restartedMain] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-02-22 10:31:21.201 [restartedMain] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-02-22 10:31:21.203 [restartedMain] INFO  a.e.m.EmployeeManagerApplication - Started EmployeeManagerApplication in 0.582 seconds (process running for 3475.405)
+2024-02-22 10:31:21.204 [restartedMain] INFO  o.s.b.d.a.ConditionEvaluationDeltaLoggingListener - Condition evaluation unchanged
