@@ -17,6 +17,6 @@ public interface AkrosUserMapper {
     @Mapping(target = "notLocked", ignore = true)
     @Mapping(target = "authorities", ignore = true)
     AkrosUser mapToAkrosUser(LoginRequestDto dto);
-    @Mapping(source = "id", target = "id")
+    //@Mapping(source = "id", target = "id")
     LoginRequestDto mapToLoginRequestDto(AkrosUser dto);
 }

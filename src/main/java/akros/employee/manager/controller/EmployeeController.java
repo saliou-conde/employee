@@ -125,7 +125,7 @@ public class EmployeeController {
 
     @Operation(
             description = "Delete employee by email",
-            summary = "The found employee will be deleted from the database. Undo operation is not possible.",
+            summary = "The found employee will be deleted from the database. Undo operation is not possible, please be care with this operation.",
             responses = {
                     @ApiResponse(
                             description = "Success",

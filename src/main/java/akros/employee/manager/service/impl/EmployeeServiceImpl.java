@@ -42,11 +42,12 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .apply(findEmployee);
         log.info("ValidationResult: {}", validation);
 
+        String startedSaveEmployee = "Started saveEmployee";
         if( validation == VALID) {
             String email = dto.getEmail();
             validation = EmployeeValidator.employeeEmailAlreadyInUser(email).apply(findEmployee);
             log.error("Employee email already in user: {}", email);
-            log.info("Started saveEmployee");
+            log.info(startedSaveEmployee);
 
             return SERVICE_UTILITY.employeeResponseDto(dto, NOT_ACCEPTABLE,
                     validation.getDescription(), NOT_ACCEPTABLE.toString(), EMPLOYEE_API_PATH);
@@ -56,7 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         validation = employeeUsernameAlreadyInUser(dto.getUsername()).apply(findByUsername);
         if(validation != VALID) {
             log.error(validation.getDescription());
-            log.info("Started saveEmployee");
+            log.info(startedSaveEmployee);
             return SERVICE_UTILITY.employeeResponseDto(dto, NOT_ACCEPTABLE,
                     validation.getDescription(), NOT_ACCEPTABLE.toString(), EMPLOYEE_API_PATH);
 
@@ -70,7 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .apply(employee);
         if(validation != VALID) {
             log.error(validation.getDescription());
-            log.info("Started saveEmployee");
+            log.info(startedSaveEmployee);
             return SERVICE_UTILITY.employeeResponseDto(dto, BAD_REQUEST,
                     validation.getDescription(), BAD_REQUEST.toString(), EMPLOYEE_API_PATH);
 
@@ -83,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeToSave.setPassword(passwordEncoder.encode(dto.getPassword()));
         employeeToSave.setUsername(dto.getUsername().toLowerCase());
         repository.save(employeeToSave);
-        log.info("Started saveEmployee");
+        log.info(startedSaveEmployee);
 
         return SERVICE_UTILITY.employeeResponseDto(dto, CREATED,
                 "Employee Successfully Added", null, EMPLOYEE_API_PATH);

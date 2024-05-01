@@ -14,6 +14,7 @@ import static akros.employee.manager.constant.AppConstant.EMPLOYEE;
 public final class ServiceUtility {
 
     private static ServiceUtility instance;
+
     private ServiceUtility() {
     }
 
@@ -37,6 +38,7 @@ public final class ServiceUtility {
                 .path(path)
                 .build();
     }
+
     public EmployeeResponseDto employeeResponseDto(LoginRequestDto requestDto, HttpStatus status, String description, String error, String path, String token) {
         requestDto.setPassword("***********");
         return EmployeeResponseDto.builder()
