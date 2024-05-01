@@ -95,6 +95,11 @@ public class AkrosUserServiceImpl implements AkrosUserService {
         log.info("Started deleteAllUsers()");
     }
 
+    /**
+     *
+     * @param email of the user
+     * @return EmployeeResponseDto
+     */
     public EmployeeResponseDto findByEmail(String email) {
         var akrosUserOptional = repository.findByEmail(email);
         if(akrosUserOptional.isPresent()) {
