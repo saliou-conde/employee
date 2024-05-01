@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface AkrosUserRepository extends JpaRepository<AkrosUser, String> {
     Optional<AkrosUser> findByUsername(String username);
+    Optional<AkrosUser> findByEmail(String email);
 }

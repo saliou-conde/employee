@@ -34,7 +34,7 @@ public class AkrosUser implements UserDetails {
     private String username;
     @Column( nullable = false)
     private String password;
-    @Column( nullable = false)
+    @Column( nullable = false, unique = true)
     private String email;
     private String profileImageUrl;
     private String lastLoginDate;

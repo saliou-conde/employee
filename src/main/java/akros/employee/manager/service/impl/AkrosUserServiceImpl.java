@@ -85,12 +85,33 @@ public class AkrosUserServiceImpl implements AkrosUserService {
         log.error("User not found by username: {}", username);
         log.info(NOT_FOUND.getReasonPhrase());
         return SERVICE_UTILITY.employeeResponseDto(new LoginRequestDto(), NOT_FOUND,
-                        "User not found by username: "+username, null,
-                        AKROS_USER_API_PATH +"active/"+username, null);    }
+                        "User not found by username: "+username, "User not found by username: "+username,
+                        AKROS_USER_API_PATH +"active/"+username, null);
+    }
 
     public void deleteAllUsers() {
         log.info("Starting deleteAllUsers()");
         repository.deleteAll();
         log.info("Started deleteAllUsers()");
+    }
+
+    public EmployeeResponseDto findByEmail(String email) {
+        var akrosUserOptional = repository.findByEmail(email);
+        if(akrosUserOptional.isPresent()) {
+            AkrosUser akrosUser = akrosUserOptional.get();
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(akrosUser.getUsername(), akrosUser.getPassword()));
+            var jwtToken = jwtService.generateToken(akrosUser);
+            log.info(OK.getReasonPhrase());
+
+
+            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), OK,
+                    "User found by username", null,
+                    AKROS_USER_API_PATH +email, jwtToken);
+        }
+        log.error("User not found by email: {}", email);
+        log.info(NOT_FOUND.getReasonPhrase());
+        return SERVICE_UTILITY.employeeResponseDto(new LoginRequestDto(), NOT_FOUND,
+                "User not found by email: "+email, "User not found by email: "+email,
+                AKROS_USER_API_PATH +email, null);
     }
 }
