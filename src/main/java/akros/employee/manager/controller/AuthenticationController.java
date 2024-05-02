@@ -3,7 +3,6 @@ package akros.employee.manager.controller;
 import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.service.AkrosUserService;
-import akros.employee.manager.service.impl.AkrosUserServiceImpl;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +39,15 @@ public class AuthenticationController {
         log.info("Starting active()");
         EmployeeResponseDto authenticate = service.active(username);
         log.info("Started active()");
+        return new ResponseEntity<>(authenticate, authenticate.getStatus());
+    }
+
+    @Hidden
+    @PostMapping("/find/{email}")
+    public ResponseEntity<EmployeeResponseDto> findByEmail(@PathVariable("email") String email) {
+        log.info("Starting findByEmail()");
+        EmployeeResponseDto authenticate = service.findByEmail(email);
+        log.info("Started findByEmail()");
         return new ResponseEntity<>(authenticate, authenticate.getStatus());
     }
 

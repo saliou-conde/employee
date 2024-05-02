@@ -8,4 +8,7 @@ public interface AkrosUserService {
     EmployeeResponseDto authenticate(LoginRequestDto loginRequestDto);
     EmployeeResponseDto active(String username);
     void deleteAllUsers();
+    default EmployeeResponseDto findByEmail(String email) {
+        return null;
+    }
 }

@@ -97,7 +97,7 @@ public class AkrosUserServiceImpl implements AkrosUserService {
 
     /**
      *
-     * @param email of the user
+     * @param email of the user, shall be unique
      * @return EmployeeResponseDto
      */
     public EmployeeResponseDto findByEmail(String email) {
