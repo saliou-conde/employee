@@ -42,7 +42,6 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticate, authenticate.getStatus());
     }
 
-    @Hidden
     @PostMapping("/find/{email}")
     public ResponseEntity<EmployeeResponseDto> findByEmail(@PathVariable("email") String email) {
         log.info("Starting findByEmail()");
