@@ -59,12 +59,9 @@ public class AkrosUserServiceImpl implements AkrosUserService {
             return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(userOptional.get()), OK,
                     "User Successfully logged in", null, AKROS_USER_API_PATH +"authenticate", jwtToken);
         }
-
-        log.error("User not found by username: {}", username);
-        log.error(FORBIDDEN.toString());
-        return SERVICE_UTILITY.employeeResponseDto(new LoginRequestDto(), FORBIDDEN,
-                        FORBIDDEN.toString(), "User not found by username: "+username,
-                AKROS_USER_API_PATH +"authenticate", null);
+        else {
+            return authenticateByEmail(loginRequestDto);
+        }
     }
 
     public EmployeeResponseDto active(String username) {
@@ -82,7 +79,7 @@ public class AkrosUserServiceImpl implements AkrosUserService {
                             AKROS_USER_API_PATH +"active/"+username, jwtToken);
         }
 
-        log.error("User not found by username: {}", username);
+        log.error("User not found by username {}", username);
         log.info(NOT_FOUND.getReasonPhrase());
         return SERVICE_UTILITY.employeeResponseDto(new LoginRequestDto(), NOT_FOUND,
                         "User not found by username: "+username, "User not found by username: "+username,
@@ -97,17 +94,17 @@ public class AkrosUserServiceImpl implements AkrosUserService {
 
     /**
      *
-     * @param email of the user, shall be unique
+     * @param loginRequestDto authenticateByEmail
      * @return EmployeeResponseDto
      */
-    public EmployeeResponseDto findByEmail(String email) {
+    private EmployeeResponseDto authenticateByEmail(LoginRequestDto loginRequestDto) {
+        String email = loginRequestDto.getEmail();
         var akrosUserOptional = repository.findByEmail(email);
         if(akrosUserOptional.isPresent()) {
             AkrosUser akrosUser = akrosUserOptional.get();
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(akrosUser.getUsername(), akrosUser.getPassword()));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(akrosUser.getUsername(), loginRequestDto.getPassword()));
             var jwtToken = jwtService.generateToken(akrosUser);
             log.info(OK.getReasonPhrase());
-
 
             return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), OK,
                     "User found by username", null,

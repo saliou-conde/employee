@@ -42,12 +42,4 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticate, authenticate.getStatus());
     }
 
-    @PostMapping("/find/{email}")
-    public ResponseEntity<EmployeeResponseDto> findByEmail(@PathVariable("email") String email) {
-        log.info("Starting findByEmail()");
-        EmployeeResponseDto authenticate = service.findByEmail(email);
-        log.info("Started findByEmail()");
-        return new ResponseEntity<>(authenticate, authenticate.getStatus());
-    }
-
 }
