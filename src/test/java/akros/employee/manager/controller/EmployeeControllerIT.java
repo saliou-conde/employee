@@ -1,5 +1,6 @@
 package akros.employee.manager.controller;
 
+import akros.employee.manager.AbstractEmployeeIT;
 import akros.employee.manager.config.SecurityConfig;
 import akros.employee.manager.constant.AppConstant;
 import akros.employee.manager.dto.EmployeeRequestDto;
@@ -7,6 +8,7 @@ import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.service.AkrosUserService;
 import akros.employee.manager.service.EmployeeService;
+import akros.employee.manager.testdata.EmployeeTestDataBuilder;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,28 +36,15 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpStatus.*;
 
-@Testcontainers
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Import({SecurityConfig.class})
-class EmployeeControllerIT {
 
-    @LocalServerPort
-    private Integer port;
-
-    @Container
-    @ServiceConnection
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>(
-            "postgres:14-alpine"
-    );
+class EmployeeControllerIT extends AbstractEmployeeIT {
 
     @Autowired
     private EmployeeService service;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
     private final String EMPLOYEE_API_PATH = "/api/v1/employees";
     private String token;
+
 
     @Autowired
     private AkrosUserService akrosUserService;
@@ -74,8 +63,8 @@ class EmployeeControllerIT {
         loginRequestDto.setFirstname("Saliou");
         loginRequestDto.setLastname("Conde");
         String AUTH_API_PATH = "/api/v1/auth";
-        EmployeeResponseDto register = restTemplate.exchange(AUTH_API_PATH +"/register", POST, new HttpEntity<>(loginRequestDto), EmployeeResponseDto.class).getBody();
-        EmployeeResponseDto active = restTemplate.exchange(AUTH_API_PATH +"/active/saliou", POST, null, EmployeeResponseDto.class).getBody();
+        EmployeeResponseDto register = restTemplate.exchange(AUTH_API_PATH + "/register", POST, new HttpEntity<>(loginRequestDto), EmployeeResponseDto.class).getBody();
+        EmployeeResponseDto active = restTemplate.exchange(AUTH_API_PATH + "/active/saliou", POST, null, EmployeeResponseDto.class).getBody();
 
 
         assertThat(register).isNotNull();
@@ -83,26 +72,25 @@ class EmployeeControllerIT {
 
         // create auth credentials
         loginRequestDto.setPassword("12346");
-        EmployeeResponseDto body = restTemplate.exchange(AUTH_API_PATH +"/authenticate", POST, new HttpEntity<>(loginRequestDto), EmployeeResponseDto.class).getBody();
+        EmployeeResponseDto body = restTemplate.exchange(AUTH_API_PATH + "/authenticate", POST, new HttpEntity<>(loginRequestDto), EmployeeResponseDto.class).getBody();
 
         assertThat(body).isNotNull();
-        token =  body.getToken();
+        token = body.getToken();
 
         RestAssured.baseURI = "http://localhost:" + port;
         service.deleteAllEmployees();
-
     }
 
     @Test
     void should_add_employee() {
         //Given
-        var requestDto = new EmployeeRequestDto();
-        requestDto.setEmployeeId(randomUUID().toString());
-        requestDto.setEmail("saliou-conde@gmx.de");
-        requestDto.setFirstname("Saliou");
-        requestDto.setLastname("Condé");
-        requestDto.setPassword("19A12iou#");
-        requestDto.setUsername(randomUUID().toString());
+        var requestDto = employeeTestDataBuilder.anEmployeeRequestDto()
+                .withEmployeeEmail("saliou-conde@gmx.de")
+                .withEmployeeFirstname("Saliou")
+                .withEmployeeLastname("Condé")
+                .withEmployeeUsername("saliou")
+                .withEmployeePassword("19A12iou#")
+                .build();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
@@ -151,7 +139,8 @@ class EmployeeControllerIT {
                 null);
         service.saveEmployee(requestDto);
         var headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + token);
+        headers
+                .set("Authorization", "Bearer " + token);
 
         //When
         var response = restTemplate.exchange(
@@ -190,7 +179,7 @@ class EmployeeControllerIT {
         EmployeeRequestDto dto = (EmployeeRequestDto) findEmployee.getData().get(EMPLOYEE);
         assertThat(findEmployee).isNotNull();
 
-        var updatedEmployee =  restTemplate.exchange(EMPLOYEE_API_PATH +"/"+email, HttpMethod.PUT, new HttpEntity<>(dto, headers), EmployeeResponseDto.class);
+        var updatedEmployee = restTemplate.exchange(EMPLOYEE_API_PATH + "/" + email, HttpMethod.PUT, new HttpEntity<>(dto, headers), EmployeeResponseDto.class);
         assertThat(updatedEmployee).isNotNull();
         assertThat(updatedEmployee.getStatusCode().value()).isEqualTo(OK.value());
 
@@ -212,7 +201,7 @@ class EmployeeControllerIT {
         headers.set("Authorization", "Bearer " + token);
 
         //When
-        var updatedEmployee =  restTemplate.exchange(EMPLOYEE_API_PATH +"/"+email, HttpMethod.PUT, new HttpEntity<>(requestDto, headers), EmployeeResponseDto.class);
+        var updatedEmployee = restTemplate.exchange(EMPLOYEE_API_PATH + "/" + email, HttpMethod.PUT, new HttpEntity<>(requestDto, headers), EmployeeResponseDto.class);
 
         //Then
         assertThat(updatedEmployee).isNotNull();
@@ -275,13 +264,13 @@ class EmployeeControllerIT {
                 .contentType(JSON)
                 .when()
                 .headers(headers)
-                .get(EMPLOYEE_API_PATH +"/saliou-conde@gmx.de")
+                .get(EMPLOYEE_API_PATH + "/saliou-conde@gmx.de")
                 .then()
                 .statusCode(OK.value());
         assertThat(responseDto.getData()).isNotNull();
         EmployeeRequestDto employeeRequestDto = (EmployeeRequestDto) responseDto.getData().get(EMPLOYEE);
         assertThat(employeeRequestDto.getEmail()).isEqualTo(requestDto.getEmail());
-        assertThat(EMPLOYEE_API_PATH +"/").isEqualTo(appConstantPath);
+        assertThat(EMPLOYEE_API_PATH + "/").isEqualTo(appConstantPath);
     }
 
     @Test
@@ -305,7 +294,7 @@ class EmployeeControllerIT {
                 .contentType(JSON)
                 .when()
                 .headers(headers)
-                .get(EMPLOYEE_API_PATH +"/saliou-conde12@gmx.de")
+                .get(EMPLOYEE_API_PATH + "/saliou-conde12@gmx.de")
                 .then()
                 .statusCode(NOT_FOUND.value());
 
@@ -332,7 +321,7 @@ class EmployeeControllerIT {
                 .contentType(JSON)
                 .headers(headers)
                 .when()
-                .delete(EMPLOYEE_API_PATH +"/saliou-conde@gmx.de")
+                .delete(EMPLOYEE_API_PATH + "/saliou-conde@gmx.de")
                 .then()
                 .statusCode(OK.value());
         assertThat(validatableResponse).isNotNull();
@@ -359,7 +348,7 @@ class EmployeeControllerIT {
                 .contentType(JSON)
                 .headers(headers)
                 .when()
-                .delete(EMPLOYEE_API_PATH +"/saliou-conde@gmx1.de")
+                .delete(EMPLOYEE_API_PATH + "/saliou-conde@gmx1.de")
                 .then()
                 .statusCode(NOT_FOUND.value());
         assertThat(validatableResponse).isNotNull();

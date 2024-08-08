@@ -19,7 +19,7 @@ public final class ServiceUtility {
     }
 
     public static synchronized ServiceUtility getInstance() {
-        if(instance == null) {
+        if (instance == null) {
             instance = new ServiceUtility();
             return instance;
         }
@@ -27,7 +27,7 @@ public final class ServiceUtility {
     }
 
     public EmployeeResponseDto employeeResponseDto(EmployeeRequestDto requestDto, HttpStatus status, String description, String error, String path) {
-        requestDto.setPassword("***********");
+        requestDto.setPassword(requestDto.getPassword() == null ? null : "***********");
         return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(status)
@@ -40,7 +40,7 @@ public final class ServiceUtility {
     }
 
     public EmployeeResponseDto employeeResponseDto(LoginRequestDto requestDto, HttpStatus status, String description, String error, String path, String token) {
-        requestDto.setPassword("***********");
+        requestDto.setPassword(requestDto.getPassword() == null ? null : "***********");
         return EmployeeResponseDto.builder()
                 .timestamp(Instant.now().toString())
                 .status(status)

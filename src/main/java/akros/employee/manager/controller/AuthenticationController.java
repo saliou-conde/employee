@@ -42,4 +42,21 @@ public class AuthenticationController {
         return new ResponseEntity<>(authenticate, authenticate.getStatus());
     }
 
+
+    @PostMapping("/reset-password/{username}")
+    public ResponseEntity<EmployeeResponseDto> resetPassword(@PathVariable("username") String username, @RequestBody LoginRequestDto requestDto) {
+        log.info("Starting resetPassword()");
+        EmployeeResponseDto authenticate = service.resetPassword(username, requestDto);
+        log.info("Started resetPassword()");
+        return new ResponseEntity<>(authenticate, authenticate.getStatus());
+    }
+
+    @PostMapping("/change-password/{username}")
+    public ResponseEntity<EmployeeResponseDto> changePassword(@PathVariable("username") String username, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        log.info("Starting changePassword()");
+        EmployeeResponseDto changePassword = service.changePassword(username, oldPassword, newPassword);
+        log.info("Started changePassword()");
+        return new ResponseEntity<>(changePassword, changePassword.getStatus());
+    }
+
 }

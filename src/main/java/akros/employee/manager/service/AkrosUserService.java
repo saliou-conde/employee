@@ -8,4 +8,6 @@ public interface AkrosUserService {
     EmployeeResponseDto authenticate(LoginRequestDto loginRequestDto);
     EmployeeResponseDto active(String username);
     void deleteAllUsers();
+    EmployeeResponseDto changePassword(String username, String oldPassword, String newPassword);
+    EmployeeResponseDto resetPassword(String adminUsername, LoginRequestDto loginRequestDto);
 }
