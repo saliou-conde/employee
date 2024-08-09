@@ -37,3 +37,6 @@ logs/
 
 ### VS Code ###
 .vscode/
+
+secrets.properties
+.env

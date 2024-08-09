@@ -27,3 +27,11 @@ These additional references should also help you:
 
 * [Gradle Build Scans – insights for your project's build](https://scans.gradle.com#gradle)
 
+### Build Docker Image
+
+* docker build -t employee .
+
+### Run Docker Container
+
+* docker run employee -p 8080:8080 -d
+

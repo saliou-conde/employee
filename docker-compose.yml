@@ -3,7 +3,7 @@ version: '3.9'
 services:
   postgres:
     image: postgres:14-alpine
-    container_name: employee
+    container_name: postgres_db
     ports:
       - "5432:5432"
     volumes:
