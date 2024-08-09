@@ -6,7 +6,6 @@ plugins {
 apply from: 'gradle/jacoco.gradle'
 
 group = 'akros.employee'
-version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '21'
