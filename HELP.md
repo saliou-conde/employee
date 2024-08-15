@@ -35,3 +35,7 @@ These additional references should also help you:
 
 * docker run employee -p 8080:8080 -d
 
+### Docker Credentials
+
+* sconde87 ==> Password can be found in KeyPass 
+

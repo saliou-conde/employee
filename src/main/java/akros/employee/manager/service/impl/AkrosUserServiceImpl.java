@@ -42,12 +42,17 @@ public class AkrosUserServiceImpl implements AkrosUserService {
         akrosUser.setJoinDate(new Date().toString());
         akrosUser.setRole(ROLE_USER);
         akrosUser.setPassword(passwordEncoder.encode(loginRequestDto.getPassword()));
-        repository.save(akrosUser);
-        var jwtToken = jwtService.generateToken(akrosUser);
-
-        log.info(CREATED.getReasonPhrase());
-        return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), CREATED,
-                "User Successfully registered", null, AKROS_USER_API_PATH, jwtToken);
+        String path = AKROS_USER_API_PATH+"register";
+        try {
+            repository.save(akrosUser);
+            var jwtToken = jwtService.generateToken(akrosUser);
+            log.info(CREATED.getReasonPhrase());
+            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), CREATED,
+                    "User Successfully registered", null, path, jwtToken);
+        } catch (Exception e) {
+            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), FORBIDDEN,
+                    "Username already exists", "User registration failed", path, null);
+        }
     }
 
     public EmployeeResponseDto authenticate(LoginRequestDto loginRequestDto) {
@@ -55,8 +60,10 @@ public class AkrosUserServiceImpl implements AkrosUserService {
         var userOptional = repository.findByUsername(username);
         if (userOptional.isPresent()) {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, loginRequestDto.getPassword()));
+            setLastLoginDate(userOptional.get());
             var jwtToken = jwtService.generateToken(userOptional.get());
             log.info(OK.getReasonPhrase());
+
 
             return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(userOptional.get()), OK,
                     "User Successfully logged in", null, AKROS_USER_API_PATH + "authenticate", jwtToken);
@@ -77,7 +84,7 @@ public class AkrosUserServiceImpl implements AkrosUserService {
             log.info(OK.getReasonPhrase());
 
             return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), OK,
-                    NOT_FOUND_BY_USERNAME, null,
+                    "User successfully activated: ", null,
                     path, jwtToken);
         }
 
@@ -146,6 +153,7 @@ public class AkrosUserServiceImpl implements AkrosUserService {
         if (akrosUserOptional.isPresent()) {
             AkrosUser akrosUser = akrosUserOptional.get();
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(akrosUser.getUsername(), loginRequestDto.getPassword()));
+            setLastLoginDate(akrosUserOptional.get());
             var jwtToken = jwtService.generateToken(akrosUser);
             log.info(OK.getReasonPhrase());
 
@@ -169,5 +177,10 @@ public class AkrosUserServiceImpl implements AkrosUserService {
     private boolean isAdmin(AkrosUser akrosUser) {
         Role role = akrosUser.getRole();
         return role == Role.ROLE_ADMIN || role == Role.ROLE_SUPER_ADMIN;
+    }
+
+    private void setLastLoginDate(AkrosUser akrosUser) {
+        akrosUser.setLastLoginDate(new Date().toString());
+        repository.save(akrosUser);
     }
 }
