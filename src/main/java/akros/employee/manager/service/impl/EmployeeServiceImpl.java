@@ -19,8 +19,7 @@ import java.util.UUID;
 import static akros.employee.manager.constant.AppConstant.EMPLOYEE_API_PATH;
 import static akros.employee.manager.domain.mapper.EmployeeMapper.INSTANCE;
 import static akros.employee.manager.domain.plaisibility.EmployeeValidation.VALID;
-import static akros.employee.manager.domain.plaisibility.EmployeeValidator.employeeUsernameAlreadyInUser;
-import static akros.employee.manager.domain.plaisibility.EmployeeValidator.isEmployeeUsernameValid;
+import static akros.employee.manager.domain.plaisibility.EmployeeValidator.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
@@ -28,24 +27,24 @@ import static org.springframework.http.HttpStatus.*;
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository repository;
-
-    private final PasswordEncoder passwordEncoder;
     private static final EmployeeMapper EMPLOYEE_MAPPER = INSTANCE;
     private static final ServiceUtility SERVICE_UTILITY = ServiceUtility.getInstance();
+
+    private final EmployeeRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     public EmployeeResponseDto saveEmployee(EmployeeRequestDto dto) {
         log.info("Starting saveEmployee");
         var findEmployee = findEmployee(dto.getEmail());
         var validation = EmployeeValidator
                 .isEmployeeValid()
-                .apply(findEmployee);
+                .apply(EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findEmployee));
         log.info("ValidationResult: {}", validation);
 
         String startedSaveEmployee = "Started saveEmployee";
         if( validation == VALID) {
             String email = dto.getEmail();
-            validation = EmployeeValidator.employeeEmailAlreadyInUser(email).apply(findEmployee);
+            validation = EmployeeValidator.employeeEmailAlreadyInUser(email).apply(EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findEmployee));
             log.error("Employee email already in user: {}", email);
             log.info(startedSaveEmployee);
 
@@ -54,7 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         var findByUsername = findEmployeeByUsername(dto.getUsername());
-        validation = employeeUsernameAlreadyInUser(dto.getUsername()).apply(findByUsername);
+        validation = employeeUsernameAlreadyInUser(dto.getUsername()).apply(EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findByUsername));
         if(validation != VALID) {
             log.error(validation.getDescription());
             log.info(startedSaveEmployee);
@@ -63,12 +62,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         }
 
-        var employee = EMPLOYEE_MAPPER.mapToEmployee(dto);
         validation = EmployeeValidator
                 .isEmployeeEmailValid()
                 .and(isEmployeeUsernameValid())
                 .and(EmployeeValidator.isEmployeePasswordValid())
-                .apply(employee);
+                .apply(dto);
         if(validation != VALID) {
             log.error(validation.getDescription());
             log.info(startedSaveEmployee);
@@ -76,7 +74,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                     validation.getDescription(), BAD_REQUEST.toString(), EMPLOYEE_API_PATH);
 
         }
-
 
         dto.setEmployeeId(UUID.randomUUID().toString());
         var employeeToSave = EMPLOYEE_MAPPER.mapToEmployee(dto);
@@ -111,7 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.info("Starting findEmployeeByEmail");
         var path = EMPLOYEE_API_PATH +email;
         var employeeRequestDto = EMPLOYEE_MAPPER.mapToEmployeeRequestDto(findEmployee(email));
-        var validation = EmployeeValidator.findEmployeeByEmail(email).apply(findEmployee(email));
+        var validation = EmployeeValidator.findEmployeeByEmail(email).apply(employeeRequestDto);
         if(validation != VALID) {
             log.error(validation.getDescription());
             log.info("Started findEmployeeByEmail");
@@ -161,6 +158,5 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Employee findEmployeeByUsername(String username) {
         return repository.findByUsername(username.toLowerCase()).orElse(null);
-
     }
 }

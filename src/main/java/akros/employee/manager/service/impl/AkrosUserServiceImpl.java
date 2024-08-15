@@ -1,7 +1,11 @@
 package akros.employee.manager.service.impl;
 
 import akros.employee.manager.domain.AkrosUser;
+import akros.employee.manager.domain.Employee;
 import akros.employee.manager.domain.enumeration.Role;
+import akros.employee.manager.domain.plaisibility.EmployeeValidation;
+import akros.employee.manager.domain.plaisibility.EmployeeValidator;
+import akros.employee.manager.dto.EmployeeRequestDto;
 import akros.employee.manager.dto.EmployeeResponseDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import akros.employee.manager.domain.mapper.AkrosUserMapper;
@@ -22,6 +26,8 @@ import java.util.UUID;
 import static akros.employee.manager.constant.AppConstant.*;
 import static akros.employee.manager.domain.enumeration.Role.ROLE_USER;
 import static akros.employee.manager.domain.mapper.AkrosUserMapper.INSTANCE;
+import static akros.employee.manager.domain.plaisibility.EmployeeValidation.VALID;
+import static akros.employee.manager.domain.plaisibility.EmployeeValidator.*;
 import static org.springframework.http.HttpStatus.*;
 
 @Service
@@ -37,22 +43,26 @@ public class AkrosUserServiceImpl implements AkrosUserService {
     private final AuthenticationManager authenticationManager;
 
     public EmployeeResponseDto register(LoginRequestDto loginRequestDto) {
+        String path = AKROS_USER_API_PATH+"register";
+        String startedSaveEmployee = "Started register";
+        EmployeeResponseDto employeeResponseDto = validateDto(loginRequestDto, path, startedSaveEmployee);
+        if(employeeResponseDto.getStatus() != OK) {
+            return employeeResponseDto;
+        }
+
         var akrosUser = MAPPER.mapToAkrosUser(loginRequestDto);
         akrosUser.setId(UUID.randomUUID().toString());
         akrosUser.setJoinDate(new Date().toString());
         akrosUser.setRole(ROLE_USER);
+        akrosUser.setUsername(loginRequestDto.getUsername().toLowerCase());
         akrosUser.setPassword(passwordEncoder.encode(loginRequestDto.getPassword()));
-        String path = AKROS_USER_API_PATH+"register";
-        try {
-            repository.save(akrosUser);
-            var jwtToken = jwtService.generateToken(akrosUser);
-            log.info(CREATED.getReasonPhrase());
-            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), CREATED,
-                    "User Successfully registered", null, path, jwtToken);
-        } catch (Exception e) {
-            return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), FORBIDDEN,
-                    "Username already exists", "User registration failed", path, null);
-        }
+
+        repository.save(akrosUser);
+        var jwtToken = jwtService.generateToken(akrosUser);
+        log.info(CREATED.getReasonPhrase());
+        log.info(startedSaveEmployee);
+        return SERVICE_UTILITY.employeeResponseDto(MAPPER.mapToLoginRequestDto(akrosUser), CREATED,
+                "User Successfully registered", null, path, jwtToken);
     }
 
     public EmployeeResponseDto authenticate(LoginRequestDto loginRequestDto) {
@@ -182,5 +192,63 @@ public class AkrosUserServiceImpl implements AkrosUserService {
     private void setLastLoginDate(AkrosUser akrosUser) {
         akrosUser.setLastLoginDate(new Date().toString());
         repository.save(akrosUser);
+    }
+
+    private EmployeeResponseDto validateDto(LoginRequestDto loginRequestDto, String path, String startedSaveEmployee) {
+        EmployeeRequestDto employeeRequestDto = MAPPER.mapToEmployeeRequestDto(MAPPER.mapToLoginRequestDto(findAkrosUserByUsername(loginRequestDto.getUsername())));
+
+        HttpStatus httpStatus = OK;
+        var validation = EmployeeValidator
+                .isEmployeeValid()
+                .apply(employeeRequestDto);
+        log.info("ValidationResult: {}", validation);
+        if(validation == VALID) {
+            String username = loginRequestDto.getUsername();
+            log.error("Username already in user: {}", username);
+            log.info(startedSaveEmployee);
+            validation = employeeUsernameAlreadyInUser(username).apply(employeeRequestDto);
+
+            httpStatus = NOT_FOUND;
+            return SERVICE_UTILITY.employeeResponseDto(employeeRequestDto, httpStatus,
+                    validation.getDescription(), httpStatus.toString(), path);
+
+        }
+
+        employeeRequestDto = MAPPER.mapToEmployeeRequestDto(MAPPER.mapToLoginRequestDto(findAkrosUserByEmail(loginRequestDto.getEmail())));
+        validation = EmployeeValidator
+                .isEmployeeValid()
+                .apply(employeeRequestDto);
+        if(validation == VALID) {
+            validation = employeeEmailAlreadyInUser(loginRequestDto.getEmail()).apply(employeeRequestDto);
+            log.error("Email already in user: {}", loginRequestDto.getEmail());
+            log.info(startedSaveEmployee);
+            httpStatus = NOT_ACCEPTABLE;
+            return SERVICE_UTILITY.employeeResponseDto(employeeRequestDto, httpStatus,
+                    validation.getDescription(), httpStatus.toString(), path);
+        }
+
+        employeeRequestDto = MAPPER.mapToEmployeeRequestDto(loginRequestDto);
+        validation = isEmployeeEmailValid().and(isEmployeeUsernameValid()).and(isEmployeePasswordValid()).apply(employeeRequestDto);
+        if(validation != VALID) {
+            log.error(validation.getDescription());
+            log.info(startedSaveEmployee);
+            httpStatus = BAD_REQUEST;
+            return SERVICE_UTILITY.employeeResponseDto(employeeRequestDto, httpStatus,
+                    validation.getDescription(), httpStatus.toString(), EMPLOYEE_API_PATH);
+
+        }
+
+        return SERVICE_UTILITY.employeeResponseDto(employeeRequestDto, httpStatus,
+                validation.getDescription(), httpStatus.toString(), path);
+    }
+
+    private AkrosUser findAkrosUserByEmail(String email) {
+        var employeeOptional = repository.findByEmail(email);
+        return employeeOptional.orElse(null);
+
+    }
+
+    private AkrosUser findAkrosUserByUsername(String username) {
+        return repository.findByUsername(username.toLowerCase()).orElse(null);
     }
 }

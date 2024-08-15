@@ -1,6 +1,7 @@
 package akros.employee.manager.domain.mapper;
 
 import akros.employee.manager.domain.AkrosUser;
+import akros.employee.manager.dto.EmployeeRequestDto;
 import akros.employee.manager.dto.LoginRequestDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,4 +20,8 @@ public interface AkrosUserMapper {
     AkrosUser mapToAkrosUser(LoginRequestDto dto);
     //@Mapping(source = "id", target = "id")
     LoginRequestDto mapToLoginRequestDto(AkrosUser dto);
+
+    //@Mapping(target = "profileImageUrl", ignore = true)
+    @Mapping(source = "id", target = "employeeId")
+    EmployeeRequestDto mapToEmployeeRequestDto(LoginRequestDto dto);
 }

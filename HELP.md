@@ -37,5 +37,10 @@ These additional references should also help you:
 
 ### Docker Credentials
 
-* sconde87 ==> Password can be found in KeyPass 
+* sconde87 ==> Password can be found in KeyPass
+
+### Docker Push Image
+
+* login to the private docker repository
+* docker push image_name:version
 
