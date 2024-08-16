@@ -14,7 +14,7 @@ services:
       - POSTGRES_DB=${DB_NAME}
 
   backend:
-    image: sconde87/employee-backend:1.1
+    build: .
     container_name: employee_app
     ports:
       - "8080:8080"
